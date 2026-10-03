@@ -19,12 +19,17 @@ export function numeroDoLink(busca: string): string | null {
   return /^\d{4}$/.test(n) ? n : null;
 }
 
-/** Texto para compartilhar ou copiar. */
+/**
+ * Texto para compartilhar ou copiar. Feito para o WhatsApp (03/10/2026): *texto* sai em negrito, e
+ * o número vem destacado porque é o que a pessoa leva para a urna. A prévia do link (imagem e
+ * título) vem das etiquetas og: da página.
+ */
 export function textoIndicacao(c: Candidato, raiz: string): string {
-  const quem = c.reeleicao
-    ? 'deputado(a) federal por MG, candidato(a) à reeleição'
-    : 'candidato(a) a deputado(a) federal por MG';
-  return `${c.nome_urna} (${c.partido}) — nº ${c.numero_urna}, ${quem}.\nConfira: ${linkIndicacao(c, raiz)}`;
+  const quem = c.reeleicao ? 'deputado(a) federal por MG, tenta a reeleição' : 'candidato(a) a deputado(a) federal por MG';
+  return (
+    `*${c.nome_urna}* (${c.partido}), número *${c.numero_urna}*: ${quem}.\n` +
+    `${c.reeleicao ? 'Veja como votou, a presença e o patrimônio' : 'Veja o patrimônio e os cargos que já teve'}: ${linkIndicacao(c, raiz)}`
+  );
 }
 
 function ehAbort(e: unknown): boolean {

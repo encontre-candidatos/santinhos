@@ -3,6 +3,8 @@
 /// <reference types="vite-plugin-pwa/client" />
 
 declare global {
+  /** BASE_PATH do build ("/santinhos" no GitHub Pages; "" local), fixado pelo vite.config.ts. */
+  const __CAMINHO_BASE__: string;
   namespace App {
     // interface Error {}
     // interface Locals {}

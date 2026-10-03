@@ -18,7 +18,8 @@ const area = (writeText: unknown) => ({ writeText }) as unknown as Clipboard;
 describe('textoIndicacao', () => {
   it('traz nome, partido, número e o link da própria vitrine', () => {
     expect(textoIndicacao(c, RAIZ)).toBe(
-      `Tião do Cerrado (PL) — nº 2201, deputado(a) federal por MG, candidato(a) à reeleição.\nConfira: ${LINK}`
+      `*Tião do Cerrado* (PL), número *2201*: deputado(a) federal por MG, tenta a reeleição.
+Veja como votou, a presença e o patrimônio: ${LINK}`
     );
   });
 });

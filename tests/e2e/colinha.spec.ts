@@ -57,7 +57,7 @@ test('Compartilhar sem Web Share copia o texto, com o número', async ({ page, c
   const { nome, numero } = await escolherPeloGuia(page);
   await colinha(page).getByRole('button', { name: 'Compartilhar' }).click();
   await expect(page.getByRole('status')).toContainText(`Copiado: ${nome}`);
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(`nº ${numero}`);
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(`número *${numero}*`);
 });
 
 test('na impressão sai só o papel da colinha', async ({ page }) => {

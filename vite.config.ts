@@ -5,6 +5,8 @@ import { defineConfig } from 'vitest/config';
 const base = process.env.BASE_PATH ?? '';
 
 export default defineConfig({
+  // Caminho base absoluto para as etiquetas og:/canonical (o `base` do SvelteKit vira "." no HTML pré-renderizado).
+  define: { __CAMINHO_BASE__: JSON.stringify(base) },
   plugins: [
     sveltekit(),
     SvelteKitPWA({
@@ -15,7 +17,7 @@ export default defineConfig({
       manifest: {
         name: 'Santinhos MG 2026',
         short_name: 'Santinhos MG',
-        description: 'Deputados federais de MG que tentam a reeleição em 2026.',
+        description: 'Em quem votar para deputado federal em MG: como os deputados votaram, presença, patrimônio e um guia de 4 perguntas.',
         lang: 'pt-BR',
         start_url: `${base}/`,
         scope: `${base}/`,

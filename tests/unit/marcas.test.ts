@@ -30,7 +30,7 @@ describe('registro (FR-050, FR-051)', () => {
     expect(MARCAS.map((m) => m.rotulo)).toEqual([
       'Extrema direita',
       'Patrimônio multiplicado',
-      'Apoiou enfraquecer a 6x1',
+      'Apoiou enfraquecer o fim da 6x1',
       'Faltou na votação da 6x1',
       'Votou pouco em 2026',
       'Votou para dificultar processo contra deputado'

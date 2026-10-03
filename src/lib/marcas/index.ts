@@ -26,7 +26,7 @@ export const MARCAS: readonly Marca[] = [
   { id: 'patrimonio', rotulo: 'Patrimônio multiplicado', tem: (c) => marcaCrescimento(c) },
   {
     id: 'enfraquecer-6x1',
-    rotulo: 'Apoiou enfraquecer a 6x1',
+    rotulo: 'Apoiou enfraquecer o fim da 6x1',
     tem: (c) => c.voto_6x1 !== null && selo6x1(c.voto_6x1).situacao === 'enfraquecer'
   },
   {

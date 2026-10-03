@@ -38,7 +38,7 @@ test.describe('Cenário 12: esconder quem tem uma marca', () => {
     await abrir(page);
     await abrirMaisFiltros(page);
     await chave(page, 'Extrema direita').click();
-    await chave(page, 'Apoiou enfraquecer a 6x1').click();
+    await chave(page, 'Apoiou enfraquecer o fim da 6x1').click();
     const ficam = semMarcas(['extrema-direita', 'enfraquecer-6x1']);
     await expect(santinhos(page)).toHaveCount(ficam.length);
     const n = candidatos.length - ficam.length;

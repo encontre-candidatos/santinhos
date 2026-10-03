@@ -9,7 +9,10 @@ const FRASE_ACHADO = 'Nunca teve cargo eletivo. Aparece porque você buscou o n�
 
 /** Oculto cujo número não é começo de nenhum outro número (para a busca parcial). */
 const alvo = ocultos.find((o) => todos.filter((c) => c.numero_urna === o.numero_urna).length === 1)!;
-const prefeito = candidatos.find((c) => !c.reeleicao && /^prefeit/.test(c.cargos_anteriores[0]?.cargo ?? ''))!;
+// Nunca deputado federal: o ex-deputado federal ganha a participação do último mandato (FR-070, WP18).
+const prefeito = candidatos.find(
+  (c) => !c.reeleicao && /^prefeit/.test(c.cargos_anteriores[0]?.cargo ?? '') && !c.cargos_anteriores.some((k) => /^deputad[oa] federal$/.test(k.cargo))
+)!;
 
 test.describe('Cenário 11: ver todos os candidatos, sem afogar', () => {
   test('base de 02/10/2026: 756 = 221 visíveis + 535 ocultos (FR-036, NFR-021)', () => {

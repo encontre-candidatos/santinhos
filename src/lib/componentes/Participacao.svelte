@@ -8,21 +8,26 @@
   Versão 4310 (03/10/2026): de 9 a 10 em 10, o bloco fica no verde do selo "votou a favor" e
   ganha a etiqueta "Vota muito" ao lado do rótulo (mesma linha: não cresce o cartão), e o rótulo
   ganha o "?" de "O que é isso?".
+  Mandato anterior de ex-deputado federal (FR-070 a FR-074, WP18): `periodo` troca o rótulo para
+  "Votações na Câmara em 2019–2022" e o "?" para o texto do mandato anterior; sem dados para o
+  período, só a frase em cinza, que já o diz.
 -->
 <script lang="ts">
-  import type { Votacoes2026 } from '$lib/tipos';
+  import type { Periodo, Votacoes2026 } from '$lib/tipos';
   import {
     CORTE_VOTA_MUITO,
     EXPLICA_PARTICIPACAO,
+    EXPLICA_PARTICIPACAO_ANTERIOR,
     FONTE_PARTICIPACAO,
+    FONTE_PARTICIPACAO_ANTERIOR,
     fraseParticipacao,
     fraseParticipacaoSr,
     participacao,
-    ROTULO_PARTICIPACAO
+    rotuloParticipacao
   } from '$lib/formatar/participacao';
   import Explica from './Explica.svelte';
 
-  let { votacoes }: { votacoes: Votacoes2026 | null } = $props();
+  let { votacoes, periodo = null }: { votacoes: Votacoes2026 | null; periodo?: Periodo | null } = $props();
 
   const p = $derived(participacao(votacoes));
   const cheias = $derived(p.sem ? 0 : p.n);
@@ -30,18 +35,24 @@
 </script>
 
 <div class="participacao" class:vermelho={!p.sem && p.vermelho} class:verde={muito} class:sem={p.sem}>
-  <p class="sr">{fraseParticipacaoSr(p)}</p>
-  <div class="topo">
-    <small aria-hidden="true">Votações<span class="longo">{' na Câmara'}</span>{' em 2026'}</small>
-    {#if muito}<span class="muito">Vota muito</span>{/if}
-    <Explica titulo={ROTULO_PARTICIPACAO} texto={EXPLICA_PARTICIPACAO} fonte={FONTE_PARTICIPACAO} />
-  </div>
+  <p class="sr">{fraseParticipacaoSr(p, periodo)}</p>
+  {#if !(p.sem && periodo)}
+    <div class="topo">
+      <small aria-hidden="true">Votações<span class="longo">{' na Câmara'}</span>{periodo ? ` em ${periodo.de}–${periodo.ate}` : ' em 2026'}</small>
+      {#if muito}<span class="muito">Vota muito</span>{/if}
+      <Explica
+        titulo={rotuloParticipacao(periodo)}
+        texto={periodo ? EXPLICA_PARTICIPACAO_ANTERIOR : EXPLICA_PARTICIPACAO}
+        fonte={periodo ? FONTE_PARTICIPACAO_ANTERIOR : FONTE_PARTICIPACAO}
+      />
+    </div>
+  {/if}
   {#if !p.sem}
     <div class="bol" aria-hidden="true">
       {#each Array.from({ length: 10 }, (_, i) => i < cheias) as cheia, i (i)}<i class:cheia></i>{/each}
     </div>
   {/if}
-  <b aria-hidden="true">{fraseParticipacao(p)}</b>
+  <b aria-hidden="true">{fraseParticipacao(p, periodo)}</b>
 </div>
 
 <style>

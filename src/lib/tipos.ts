@@ -20,6 +20,7 @@ export interface Candidato {
   patrimonio_2022: number | null;  // total declarado em 2022 a deputado federal por MG; null = não concorreu (FR-015)
   voto_6x1: Voto6x1 | null;        // posição na PEC 221/2019, fim da escala 6x1 (FR-024); null = não é deputado
   votacoes_2026: Votacoes2026 | null; // votações nominais do Plenário em 2026; null = nenhuma no mandato (FR-034)
+  votacoes_mandato_anterior: MandatoAnterior | null; // último mandato de ex-deputado federal fora do mandato; null = nunca foi (FR-070)
   reeleicao: boolean;              // deputado em exercício que concorre (FR-039)
   cargos_anteriores: CargoAnterior[]; // eleições do TSE de 2000 a 2024, do mais recente ao mais antigo; vazia = nunca eleito (FR-036)
   patrimonio_anterior: PatrimonioAnterior | null; // declaração mais recente antes de 2026; null = nenhuma (FR-062)
@@ -83,6 +84,15 @@ export interface Votacoes2026 {
   votou: number;
   total: number;
 }
+
+/** Período do último mandato de deputado federal: ano seguinte à eleição até o quarto ano. */
+export interface Periodo {
+  de: number;
+  ate: number;
+}
+
+/** Participação no último mandato (FR-070 a FR-073); `sem_dados`: sem ligação com a Câmara ou sem votos nominais no período. */
+export type MandatoAnterior = (Votacoes2026 & Periodo) | ({ sem_dados: true } & Periodo);
 
 export interface Partido {
   sigla: string;

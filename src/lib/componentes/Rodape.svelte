@@ -1,6 +1,6 @@
 <!--
   Rodapé (FR-010): fontes e data de conferência, como a marca é feita (a Limitação aceita da spec),
-  a conta das votações de 2026 (FR-035) e o que faz "Indicar". Tudo lido de `base`; a contagem de
+  a conta das votações de 2026 (FR-035) e do mandato anterior (FR-074) e o que faz "Indicar". Tudo lido de `base`; a contagem de
   quem não concorre vem com a lista.
   O critério do carimbo de patrimônio (FR-015) acompanha CORTE_CRESCIMENTO e CORTE_AUMENTO de
   $lib/formatar/crescimento: mudou lá, muda o texto aqui. A correção pelo IPCA (FR-064) cita a
@@ -114,6 +114,11 @@
       justificada, como missão autorizada ou licença curta para tratamento de saúde, conta como
       "não votou", porque a Câmara não a separa por votação; na conferência de 02/10/2026, isso
       pesou de 1 a 2 dias por candidato e não mudou nenhum cartão de cor.
+    </p>
+    <p>
+      Quem já foi deputado federal e não está no mandato tem as bolinhas do último mandato, com o
+      período no título (por exemplo, 2019–2022), contadas do mesmo jeito; esse número não se
+      compara ao de 2026, que cobre outro período e outra quantidade de votações.
     </p>
   </section>
 

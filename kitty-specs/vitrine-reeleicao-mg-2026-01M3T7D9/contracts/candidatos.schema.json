@@ -5,7 +5,7 @@
   "items": {
     "type": "object",
     "additionalProperties": false,
-    "required": ["id_camara", "sq_candidato", "nome_urna", "nome_civil", "numero_urna", "partido", "partido_posse", "condicao", "mandatos", "situacao_candidatura", "url_camara", "url_divulgacand", "patrimonio_total", "patrimonio_itens", "patrimonio_2022", "voto_6x1", "votacoes_2026", "reeleicao", "cargos_anteriores", "regiao_2022", "governo_2026", "blindagem", "patrimonio_anterior"],
+    "required": ["id_camara", "sq_candidato", "nome_urna", "nome_civil", "numero_urna", "partido", "partido_posse", "condicao", "mandatos", "situacao_candidatura", "url_camara", "url_divulgacand", "patrimonio_total", "patrimonio_itens", "patrimonio_2022", "voto_6x1", "votacoes_2026", "reeleicao", "cargos_anteriores", "regiao_2022", "governo_2026", "blindagem", "patrimonio_anterior", "votacoes_mandato_anterior"],
     "properties": {
       "id_camara": { "type": ["integer", "null"] },
       "sq_candidato": { "type": "string", "pattern": "^\\d+$" },
@@ -44,6 +44,33 @@
           "votou": { "type": "integer", "minimum": 0 },
           "total": { "type": "integer", "minimum": 1 }
         }
+      },
+      "votacoes_mandato_anterior": {
+        "description": "Ex-deputado federal fora do mandato: votações nominais do Plenário do último mandato (de = ano da eleição + 1, ate = + 4), contadas nas datas em exercício; sem_dados = sem ligação com a Câmara ou sem votos nominais no período; null = não é ex-deputado federal fora do mandato (FR-070 a FR-073)",
+        "oneOf": [
+          { "type": "null" },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["votou", "total", "de", "ate"],
+            "properties": {
+              "votou": { "type": "integer", "minimum": 0 },
+              "total": { "type": "integer", "minimum": 1 },
+              "de": { "type": "integer", "minimum": 2001, "maximum": 2025 },
+              "ate": { "type": "integer", "minimum": 2004, "maximum": 2028 }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sem_dados", "de", "ate"],
+            "properties": {
+              "sem_dados": { "const": true },
+              "de": { "type": "integer", "minimum": 2001, "maximum": 2025 },
+              "ate": { "type": "integer", "minimum": 2004, "maximum": 2028 }
+            }
+          }
+        ]
       },
       "reeleicao": { "type": "boolean", "description": "Deputado federal em exercício que concorre em 2026 (FR-039); false = os campos da Câmara são null" },
       "cargos_anteriores": {

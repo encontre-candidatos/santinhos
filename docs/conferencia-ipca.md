@@ -159,3 +159,22 @@ abertos que o DivulgaCand também publica, não com a página.
 - Entre os 48 da reeleição, 6 passaram a comparar com 2024 (concorreram na eleição municipal):
   DANDARA, DELEGADA IONE, JUNIO AMARAL, LEONARDO MONTEIRO, PAULO GUEDES, ROGÉRIO CORREIA.
   Nenhum deles tinha nem passou a ter carimbo.
+
+## NFR-041 fechado por aceitação (decisão da usuária, 03/10/2026)
+
+Fica valendo a conferência contra os arquivos de dados abertos do TSE e o SIDRA de 03/10/2026
+(tabela "Conferência refeita fora do app" acima: 13 de 13, diferença 0), sem a página do
+DivulgaCand, que bloqueia acesso automático. Mesma saída do SC-006 (`docs/conferencia-crescimento.md`).
+
+O que se aceita:
+
+- o DivulgaCand pode mostrar total diferente do arquivo, por declaração atualizada depois da
+  geração do CSV ou por item tratado de outro jeito;
+- o carimbo de ELIENE CHAVES sai com o valor que está no arquivo de 2026 (R$ 480.000.000), mesmo
+  fora da escala dos demais; a ressalva "abrir antes de publicar" do registro acima fica
+  substituída por esta aceitação. O cartão é oculto por padrão (nunca foi eleita).
+
+Reabrir se: alguém contestar o valor de um dos 39 marcados, em especial ELIENE CHAVES ou
+REGINALDO FERREIRA (2,01×, o mais perto do corte); o TSE publicar algum `bem_candidato_<ano>.zip`
+usado aqui com `Last-Modified` posterior ao registrado em `base.json`; ou o IBGE revisar a
+tabela 1737 para algum agosto de 2006 a 2026.

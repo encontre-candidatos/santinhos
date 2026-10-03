@@ -24,6 +24,7 @@ import { patrimonio2022 } from './lib/somar-bens.mjs';
 import { ARQUIVO_CAND_2022, ARQUIVOS_TSE, coletarTSE, coletarTSE2022 } from './lib/tse.mjs';
 import { urlCamara, urlDivulgaCand } from './lib/urls.mjs';
 import { coletar6x1, EMENDAS, PEC_6X1, SEM_REGISTRO_6X1, VOTACAO_1_TURNO, VOTACAO_FINAL } from './lib/votacao-6x1.mjs';
+import { coletarMandatoAnterior, conferenciaMandatoAnterior, PORTAL_CAMARA } from './lib/votacoes-mandato-anterior.mjs';
 import { coletarVotacoes2026, nDe, ORGAO_PLENARIO, relatorioParticipacao } from './lib/votacoes-2026.mjs';
 import { montarRegiao, URL_MUNZONA } from './lib/regiao.mjs';
 import { montarGoverno } from './lib/governo.mjs';
@@ -38,6 +39,7 @@ const ARQ_INSTAGRAM = join(RAIZ, 'scripts', 'instagram-manual.json');
 const ARQ_CONF_PARTICIPACAO = join(RAIZ, 'docs', 'conferencia-participacao.md');
 const ARQ_CONF_CARGOS = join(RAIZ, 'docs', 'conferencia-cargos.md');
 const ARQ_CONF_IPCA = join(RAIZ, 'docs', 'conferencia-ipca.md');
+const ARQ_CONF_ANTERIOR = join(RAIZ, 'docs', 'conferencia-mandato-anterior.md');
 const ARQ_IPCA = join(RAIZ, 'scripts', 'ipca-agosto.json');
 
 const args = new Set(process.argv.slice(2));
@@ -174,6 +176,7 @@ async function main() {
     voto_6x1: seisPorUm.porId.get(d.id) ?? SEM_REGISTRO_6X1,
     // null = nenhuma votação nominal de 2026 com ele no mandato (FR-034).
     votacoes_2026: participacao.porId.get(d.id) ?? null,
+    votacoes_mandato_anterior: null,
     reeleicao: true,
     cargos_anteriores: cargos.porSq.get(c.sq) ?? []
   }));
@@ -212,6 +215,16 @@ async function main() {
   for (const c of naoDeputados) {
     Object.assign(c, { regiao_2022: regiao.por_sq2026[c.sq_candidato] ?? null, governo_2026: null, blindagem: null });
   }
+  // Quem já foi deputado federal: participação no último mandato (FR-070 a FR-073; WP18).
+  const cand2026 = new Map(tse.candidaturas.map((c) => [c.sq, c]));
+  const mandatoAnterior = await coletarMandatoAnterior(redeMandatoAnterior(), {
+    api: API_CAMARA,
+    candidatos: naoDeputados.map((n) => {
+      const c = /** @type {typeof tse.candidaturas[number]} */ (cand2026.get(n.sq_candidato));
+      return { sq: n.sq_candidato, nome_urna: n.nome_urna, cpf: c.cpf, nomeCivil: c.nomeCivil, dataNascimento: c.dataNascimento, cargos_anteriores: n.cargos_anteriores };
+    })
+  });
+  for (const n of naoDeputados) n.votacoes_mandato_anterior = /** @type {any} */ (mandatoAnterior.porSq.get(n.sq_candidato) ?? null);
   const todos = [...candidatos, ...naoDeputados].sort((a, b) => pt(a.nome_urna, b.nome_urna) || pt(a.sq_candidato, b.sq_candidato));
 
   // Fotos de quem saiu da lista.
@@ -284,6 +297,13 @@ async function main() {
         arquivo_ou_endpoint: 'scripts/ipca-agosto.json; fator = índice de agosto de 2026 ÷ índice de agosto do ano da declaração'
       },
       {
+        nome: 'Câmara dos Deputados — votações nominais em Plenário de cada ex-deputado federal no último mandato, na página do deputado',
+        url: `${PORTAL_CAMARA}/deputados/quem-sao`,
+        arquivo_ou_endpoint: `${PORTAL_CAMARA}/deputados/{id}/votacoes-nominais-plenario/{ano}, uma página por deputado e ano do período ` +
+          '(os Dados Abertos não têm todas; ver research/medicao-mandato-anterior-2026-10-03.md); ligação e exercício pela API: ' +
+          'GET /deputados?idLegislatura={L}&siglaUf={UF}; GET /deputados/{id}; GET /deputados/{id}/historico; conferência em docs/conferencia-mandato-anterior.md'
+      },
+      {
         nome: 'TSE — Dados Abertos, fotos dos candidatos de 2026 em MG (de quem não é deputado em exercício)',
         url: ARQUIVO_FOTOS_2026.url,
         arquivo_ou_endpoint: `${fotosTSE.fonte.zip} (modificado na fonte em ${fotosTSE.fonte.modificado})`
@@ -327,6 +347,8 @@ async function main() {
   // A seção conferida à mão (abaixo do marcador) é preservada entre execuções.
   const confAnterior = existsSync(ARQ_CONF_CARGOS) ? await readFile(ARQ_CONF_CARGOS, 'utf8') : '';
   await writeFile(ARQ_CONF_CARGOS, conferenciaCargos(todos, cargos, confAnterior, hoje));
+  const confMandato = existsSync(ARQ_CONF_ANTERIOR) ? await readFile(ARQ_CONF_ANTERIOR, 'utf8') : '';
+  await writeFile(ARQ_CONF_ANTERIOR, conferenciaMandatoAnterior(mandatoAnterior, confMandato, hoje));
   const confIpcaAnterior = existsSync(ARQ_CONF_IPCA) ? await readFile(ARQ_CONF_IPCA, 'utf8') : '';
   await writeFile(ARQ_CONF_IPCA, conferenciaIpca(todos, { anteriores: cargos.anteriores, ipca }, confIpcaAnterior, hoje));
 
@@ -378,6 +400,10 @@ async function main() {
     (candidatos.filter((c) => !c.governo_2026).map((c) => c.nome_urna).join(', ') || 'ninguém') + '.');
   const simBlindagem = candidatos.filter((c) => c.blindagem && (c.blindagem.t1 === 'sim' || c.blindagem.t2 === 'sim'));
   console.log(`PEC da Blindagem (dias ${blindagem.dias.join(', ')}): Sim em algum turno ${simBlindagem.length}: ${simBlindagem.map((c) => c.nome_urna).join(', ')}.`);
+  console.log(`Mandato anterior (ex-deputados federais fora do mandato): ${mandatoAnterior.linhas.length}; ` +
+    mandatoAnterior.linhas.map((l) => `${l.nome_urna} ${l.de}–${l.ate} ` +
+      ('sem_dados' in l.resultado ? `sem dados (${l.motivo})` : `${l.resultado.votou}/${l.resultado.total} via ${l.via}`)).join('; ') +
+    '; lista em docs/conferencia-mandato-anterior.md.');
   const semInstagram = candidatos.filter((c) => !c.instagram);
   console.log(`Instagram: ${candidatos.length - semInstagram.length} com perfil, ${semInstagram.length} sem` +
     (semInstagram.length ? `: ${semInstagram.map((c) => `${c.id_camara} ${c.nome_urna}`).join(', ')}` : '') + '.');
@@ -399,6 +425,26 @@ function redeVotacoes() {
         await writeFile(caminho, JSON.stringify({ http404: true }));
         return null;
       }
+    }
+  };
+}
+
+/**
+ * Rede da participação no mandato anterior, com cache em scripts/.cache/camara-mandato-anterior/
+ * (com --cache): JSON da API da Câmara e as páginas "Votações nominais em Plenário" do portal.
+ */
+function redeMandatoAnterior() {
+  const dir = join(DIR_CACHE, 'camara-mandato-anterior');
+  return {
+    mapLimitado,
+    json: (/** @type {string} */ url, /** @type {string} */ arquivo) => jsonComCache(url, join(dir, arquivo), usarCache),
+    async html(/** @type {string} */ url, /** @type {string} */ arquivo) {
+      const caminho = join(dir, arquivo);
+      if (usarCache && existsSync(caminho)) return readFile(caminho, 'utf8');
+      const texto = await (await buscar(url)).text();
+      await mkdir(dir, { recursive: true });
+      await writeFile(caminho, texto);
+      return texto;
     }
   };
 }

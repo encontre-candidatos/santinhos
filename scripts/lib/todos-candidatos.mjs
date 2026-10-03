@@ -48,6 +48,8 @@ export function registroNaoDeputado(c, extra) {
     patrimonio_anterior: extra.patrimonio_anterior,
     voto_6x1: null,
     votacoes_2026: null,
+    // Preenchido pelo montador para quem já foi deputado federal (FR-070; WP18).
+    votacoes_mandato_anterior: null,
     reeleicao: false,
     cargos_anteriores: extra.cargos_anteriores
   };

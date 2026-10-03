@@ -17,6 +17,8 @@
   (absoluto, não cresce o cartão), linha "lado no governo" em cor neutra (é lado, não defeito) e,
   com cidade escolhida, a posição dele nela em 2022. Cada linha nova tem o "?" de "O que é isso?".
   A foto não fica em cinza pela Blindagem: 36 dos 48 levam o carimbo, e o cinza apagaria a mesa.
+  Ex-deputado federal fora do mandato (FR-070, WP18): o bloco de participação do último mandato,
+  com o período no rótulo, no lugar onde o deputado tem o de 2026.
 -->
 <script lang="ts">
   import type { Candidato, Municipio } from '$lib/tipos';
@@ -152,6 +154,9 @@
     {#if candidato.voto_6x1}
       <Selo6x1 voto={candidato.voto_6x1} />
       <Participacao votacoes={candidato.votacoes_2026} />
+    {:else if candidato.votacoes_mandato_anterior}
+      {@const m = candidato.votacoes_mandato_anterior}
+      <Participacao votacoes={'sem_dados' in m ? null : m} periodo={m} />
     {/if}
     {#if gov !== null && candidato.governo_2026}
       <div class="governo">

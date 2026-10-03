@@ -1,0 +1,436 @@
+{
+ "fonte": "static/raio-x/index.html da branch raio-x-publicar (commit b8d7fc3), objeto DADOS: alertas e quais por número de urna. Conferência das regras de src/lib/formatar/raio-x.ts.",
+ "por_numero": {
+  "1010": {
+   "nome": "Gilberto Abramo",
+   "grupo": "Centro",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Presença"
+   ]
+  },
+  "1015": {
+   "nome": "Euclydes Pettersen",
+   "grupo": "Centro",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "Devastação",
+    "Reforma",
+    "Presença"
+   ]
+  },
+  "1077": {
+   "nome": "Bruno Farias",
+   "grupo": "Centro",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "Devastação",
+    "Presença"
+   ]
+  },
+  "1111": {
+   "nome": "Dimas Fabiano",
+   "grupo": "Centro",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Devastação"
+   ]
+  },
+  "1122": {
+   "nome": "Pinheirinho",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Presença"
+   ]
+  },
+  "1193": {
+   "nome": "Pedro Aihara",
+   "grupo": "Centro",
+   "alertas": 1,
+   "quais": [
+    "Blindagem"
+   ]
+  },
+  "1199": {
+   "nome": "Ana Paula Leão",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "1234": {
+   "nome": "Mário Heringer",
+   "grupo": "Centro",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Presença"
+   ]
+  },
+  "1312": {
+   "nome": "Reginaldo Lopes",
+   "grupo": "Esquerda",
+   "alertas": 1,
+   "quais": [
+    "Presença"
+   ]
+  },
+  "1313": {
+   "nome": "Rogério Correia",
+   "grupo": "Esquerda",
+   "alertas": 0,
+   "quais": []
+  },
+  "1314": {
+   "nome": "Ana Pimentel",
+   "grupo": "Esquerda",
+   "alertas": 0,
+   "quais": []
+  },
+  "1315": {
+   "nome": "Padre João",
+   "grupo": "Esquerda",
+   "alertas": 0,
+   "quais": []
+  },
+  "1334": {
+   "nome": "Dandara",
+   "grupo": "Esquerda",
+   "alertas": 1,
+   "quais": [
+    "Presença"
+   ]
+  },
+  "1339": {
+   "nome": "Miguel Ângelo",
+   "grupo": "Esquerda",
+   "alertas": 0,
+   "quais": []
+  },
+  "1350": {
+   "nome": "Gilmar Machado",
+   "grupo": "Esquerda",
+   "alertas": 0,
+   "quais": []
+  },
+  "1363": {
+   "nome": "Leonardo Monteiro",
+   "grupo": "Esquerda",
+   "alertas": 1,
+   "quais": [
+    "Blindagem"
+   ]
+  },
+  "1378": {
+   "nome": "Paulo Guedes",
+   "grupo": "Esquerda",
+   "alertas": 1,
+   "quais": [
+    "Blindagem"
+   ]
+  },
+  "1510": {
+   "nome": "Newton Cardoso Jr",
+   "grupo": "Centro",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Presença"
+   ]
+  },
+  "1813": {
+   "nome": "André Janones",
+   "grupo": "Esquerda",
+   "alertas": 0,
+   "quais": []
+  },
+  "2020": {
+   "nome": "Nely Aquino",
+   "grupo": "Centro",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Devastação"
+   ]
+  },
+  "2200": {
+   "nome": "Zé Vitor",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Presença"
+   ]
+  },
+  "2210": {
+   "nome": "Maurício do Vôlei",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "2215": {
+   "nome": "Rosangela Reis",
+   "grupo": "Direita",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação"
+   ]
+  },
+  "2222": {
+   "nome": "Nikolas Ferreira",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "2232": {
+   "nome": "Delegada Ione",
+   "grupo": "Direita",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Reforma"
+   ]
+  },
+  "2233": {
+   "nome": "Lincoln Portela",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "2240": {
+   "nome": "Emidinho Madeira",
+   "grupo": "Direita",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "2244": {
+   "nome": "Marcelo Álvaro Antônio",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "2250": {
+   "nome": "Lafayette Andrada",
+   "grupo": "Direita",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Presença"
+   ]
+  },
+  "2252": {
+   "nome": "Dr. Frederico",
+   "grupo": "Direita",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "2270": {
+   "nome": "Greyce Elias",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Presença"
+   ]
+  },
+  "2277": {
+   "nome": "Eros Biondini",
+   "grupo": "Direita",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "2299": {
+   "nome": "Junio Amaral",
+   "grupo": "Direita",
+   "alertas": 4,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação",
+    "Reforma"
+   ]
+  },
+  "2533": {
+   "nome": "Fred Costa",
+   "grupo": "Centro",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Presença"
+   ]
+  },
+  "4400": {
+   "nome": "Luiz Fernando",
+   "grupo": "Centro",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "6x1"
+   ]
+  },
+  "4433": {
+   "nome": "Samuel Viana",
+   "grupo": "Centro",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Devastação"
+   ]
+  },
+  "4444": {
+   "nome": "Delegado Marcelo Freitas",
+   "grupo": "Direita",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Devastação"
+   ]
+  },
+  "4445": {
+   "nome": "Rafael Simões",
+   "grupo": "Direita",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Devastação"
+   ]
+  },
+  "4450": {
+   "nome": "Rodrigo de Castro",
+   "grupo": "Centro",
+   "alertas": 1,
+   "quais": [
+    "Blindagem"
+   ]
+  },
+  "4455": {
+   "nome": "Igor Timo",
+   "grupo": "Centro",
+   "alertas": 1,
+   "quais": [
+    "Blindagem"
+   ]
+  },
+  "4477": {
+   "nome": "Zé Silva",
+   "grupo": "Centro",
+   "alertas": 1,
+   "quais": [
+    "6x1"
+   ]
+  },
+  "4545": {
+   "nome": "Paulo Abi-Ackel",
+   "grupo": "Centro",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Presença"
+   ]
+  },
+  "5050": {
+   "nome": "Duda Salabert",
+   "grupo": "Esquerda",
+   "alertas": 0,
+   "quais": []
+  },
+  "5088": {
+   "nome": "Célia Xakriabá",
+   "grupo": "Esquerda",
+   "alertas": 0,
+   "quais": []
+  },
+  "5510": {
+   "nome": "Weliton Prado",
+   "grupo": "Centro",
+   "alertas": 1,
+   "quais": [
+    "Presença"
+   ]
+  },
+  "5544": {
+   "nome": "Stefano Aguiar",
+   "grupo": "Centro",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "Reforma",
+    "Presença"
+   ]
+  },
+  "5555": {
+   "nome": "Diego Andrade",
+   "grupo": "Centro",
+   "alertas": 3,
+   "quais": [
+    "Blindagem",
+    "6x1",
+    "Presença"
+   ]
+  },
+  "7070": {
+   "nome": "Luis Tibé",
+   "grupo": "Centro",
+   "alertas": 2,
+   "quais": [
+    "Blindagem",
+    "Presença"
+   ]
+  }
+ }
+}

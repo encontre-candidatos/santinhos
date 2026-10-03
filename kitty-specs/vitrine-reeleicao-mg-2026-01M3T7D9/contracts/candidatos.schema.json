@@ -5,7 +5,7 @@
   "items": {
     "type": "object",
     "additionalProperties": false,
-    "required": ["id_camara", "sq_candidato", "nome_urna", "nome_civil", "numero_urna", "partido", "partido_posse", "condicao", "mandatos", "situacao_candidatura", "url_camara", "url_divulgacand", "patrimonio_total", "patrimonio_itens", "patrimonio_2022", "voto_6x1", "votacoes_2026", "reeleicao", "cargos_anteriores", "regiao_2022", "governo_2026", "blindagem", "patrimonio_anterior", "votacoes_mandato_anterior"],
+    "required": ["id_camara", "sq_candidato", "nome_urna", "nome_civil", "numero_urna", "partido", "partido_posse", "condicao", "mandatos", "situacao_candidatura", "url_camara", "url_divulgacand", "patrimonio_total", "patrimonio_itens", "patrimonio_2022", "voto_6x1", "votacoes_2026", "reeleicao", "cargos_anteriores", "patrimonio_anterior", "votacoes_mandato_anterior", "regiao_2022", "governo_2026", "blindagem", "devastacao", "reforma_tributaria"],
     "properties": {
       "id_camara": { "type": ["integer", "null"] },
       "sq_candidato": { "type": "string", "pattern": "^\\d+$" },
@@ -33,6 +33,16 @@
           "final": { "enum": ["sim", "nao", "ausente", null] },
           "primeiro_turno": { "enum": ["sim", "nao", "ausente", null] },
           "emendas": { "type": "array", "uniqueItems": true, "items": { "enum": [1, 2] } }
+        }
+      },
+      "emendas_mg": {
+        "type": ["object", "null"],
+        "additionalProperties": false,
+        "required": ["total", "por_municipio"],
+        "description": "Opcional enquanto o WP11 estiver adiado (02/10/2026). Emendas individuais do deputado, pagas (pago + restos a pagar pagos) de 2023 a 2026 para municípios de MG; total = soma de por_municipio (FR-026)",
+        "properties": {
+          "total": { "type": "number", "minimum": 0 },
+          "por_municipio": { "type": "object", "propertyNames": { "pattern": "^31[0-9]{5}$" }, "additionalProperties": { "type": "number", "exclusiveMinimum": 0 } }
         }
       },
       "votacoes_2026": {
@@ -116,6 +126,20 @@
         "additionalProperties": false,
         "required": ["t1", "t2"],
         "description": "Versão 4310. PEC 3/2021 (PEC da Blindagem), Plenário, 16/09/2025: 1º turno (2270800-135) e 2º turno (2270800-160); null no turno = fora do exercício; null no campo = não é deputado",
+        "properties": {
+          "t1": { "enum": ["sim", "nao", "ausente", null] },
+          "t2": { "enum": ["sim", "nao", "ausente", null] }
+        }
+      },
+      "devastacao": {
+        "enum": ["sim", "nao", "ausente", null],
+        "description": "Raio-X da reeleição (03/10/2026). PL 2159/2021 (PL da Devastação), Plenário, sessão de 16/07/2025 (registrada às 01h53 de 17/07): Emendas do Senado, votação 257161-454; null = fora do exercício na data ou não é deputado"
+      },
+      "reforma_tributaria": {
+        "type": ["object", "null"],
+        "additionalProperties": false,
+        "required": ["t1", "t2"],
+        "description": "Raio-X da reeleição (03/10/2026). PEC 45/2019 (Reforma tributária), Plenário: 1º turno (2196833-326) e 2º turno (2196833-373), sessão de 06/07/2023 (2º turno registrado à 01h39 de 07/07); null no turno = fora do exercício; null no campo = não é deputado",
         "properties": {
           "t1": { "enum": ["sim", "nao", "ausente", null] },
           "t2": { "enum": ["sim", "nao", "ausente", null] }

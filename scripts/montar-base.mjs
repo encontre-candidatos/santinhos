@@ -29,6 +29,7 @@ import { coletarVotacoes2026, nDe, ORGAO_PLENARIO, relatorioParticipacao } from 
 import { montarRegiao, URL_MUNZONA } from './lib/regiao.mjs';
 import { montarGoverno } from './lib/governo.mjs';
 import { montarBlindagem, PEC_BLINDAGEM, VOTACOES_BLINDAGEM } from './lib/blindagem.mjs';
+import { montarVotacoesChave, PEC_REFORMA, PL_DEVASTACAO, VOTACAO_DEVASTACAO, VOTACOES_REFORMA } from './lib/votacoes-chave.mjs';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIR_CACHE = join(RAIZ, 'scripts', '.cache');
@@ -205,15 +206,25 @@ async function main() {
   const idsDeputados = candidatos.map((c) => c.id_camara);
   const governo = await montarGoverno(idsDeputados, hoje);
   const blindagem = await montarBlindagem(idsDeputados);
+  // Raio-X da reeleição (03/10/2026): PL da Devastação e Reforma tributária, mesma regra da Blindagem.
+  const chave = await montarVotacoesChave(idsDeputados);
   for (const c of candidatos) {
     Object.assign(c, {
       regiao_2022: regiao.por_sq2026[c.sq_candidato] ?? null,
       governo_2026: governo.porId[c.id_camara] ?? null,
-      blindagem: blindagem.porId.get(c.id_camara) ?? null
+      blindagem: blindagem.porId.get(c.id_camara) ?? null,
+      devastacao: chave.porId.get(c.id_camara)?.devastacao ?? null,
+      reforma_tributaria: chave.porId.get(c.id_camara)?.reforma_tributaria ?? null
     });
   }
   for (const c of naoDeputados) {
-    Object.assign(c, { regiao_2022: regiao.por_sq2026[c.sq_candidato] ?? null, governo_2026: null, blindagem: null });
+    Object.assign(c, {
+      regiao_2022: regiao.por_sq2026[c.sq_candidato] ?? null,
+      governo_2026: null,
+      blindagem: null,
+      devastacao: null,
+      reforma_tributaria: null
+    });
   }
   // Quem já foi deputado federal: participação no último mandato (FR-070 a FR-073; WP18).
   const cand2026 = new Map(tse.candidaturas.map((c) => [c.sq, c]));
@@ -322,6 +333,16 @@ async function main() {
         nome: 'Câmara dos Deputados — Dados Abertos, PEC 3/2021 (PEC da Blindagem), Plenário, 16/09/2025',
         url: `${API_CAMARA}/proposicoes/${PEC_BLINDAGEM}`,
         arquivo_ou_endpoint: `GET /votacoes/${VOTACOES_BLINDAGEM.t1}/votos; GET /votacoes/${VOTACOES_BLINDAGEM.t2}/votos; GET /deputados/{id}/historico`
+      },
+      {
+        nome: `Câmara dos Deputados — Dados Abertos, PL 2159/2021 (PL da Devastação, licenciamento ambiental), Plenário, sessão de ${chave.dias.devastacao.split('-').reverse().join('/')}: Emendas do Senado`,
+        url: `${API_CAMARA}/proposicoes/${PL_DEVASTACAO}`,
+        arquivo_ou_endpoint: `GET /votacoes/${VOTACAO_DEVASTACAO}/votos; GET /deputados/{id}/historico`
+      },
+      {
+        nome: `Câmara dos Deputados — Dados Abertos, PEC 45/2019 (Reforma tributária), Plenário, 1º e 2º turno, sessão de ${[...new Set(chave.dias.reforma)].map((d) => d.split('-').reverse().join('/')).join(' e ')}`,
+        url: `${API_CAMARA}/proposicoes/${PEC_REFORMA}`,
+        arquivo_ou_endpoint: `GET /votacoes/${VOTACOES_REFORMA.t1}/votos; GET /votacoes/${VOTACOES_REFORMA.t2}/votos; GET /deputados/{id}/historico`
       }
     ],
     total_deputados_mg: deputados.length,
@@ -400,6 +421,11 @@ async function main() {
     (candidatos.filter((c) => !c.governo_2026).map((c) => c.nome_urna).join(', ') || 'ninguém') + '.');
   const simBlindagem = candidatos.filter((c) => c.blindagem && (c.blindagem.t1 === 'sim' || c.blindagem.t2 === 'sim'));
   console.log(`PEC da Blindagem (dias ${blindagem.dias.join(', ')}): Sim em algum turno ${simBlindagem.length}: ${simBlindagem.map((c) => c.nome_urna).join(', ')}.`);
+  const nomesSe = (/** @type {(c: any) => boolean} */ f) => candidatos.filter(f).map((c) => c.nome_urna);
+  const simDev = nomesSe((c) => c.devastacao === 'sim');
+  const naoRef = nomesSe((c) => c.reforma_tributaria && (c.reforma_tributaria.t1 === 'nao' || c.reforma_tributaria.t2 === 'nao'));
+  console.log(`PL da Devastação (dia ${chave.dias.devastacao}): Sim ${simDev.length}: ${simDev.join(', ')}.`);
+  console.log(`Reforma tributária (dias ${chave.dias.reforma.join(', ')}): Não em algum turno ${naoRef.length}: ${naoRef.join(', ')}.`);
   console.log(`Mandato anterior (ex-deputados federais fora do mandato): ${mandatoAnterior.linhas.length}; ` +
     mandatoAnterior.linhas.map((l) => `${l.nome_urna} ${l.de}–${l.ate} ` +
       ('sem_dados' in l.resultado ? `sem dados (${l.motivo})` : `${l.resultado.votou}/${l.resultado.total} via ${l.via}`)).join('; ') +

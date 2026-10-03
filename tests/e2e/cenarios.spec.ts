@@ -40,8 +40,11 @@ test.describe('Cenário 1: ver quem tenta a reeleição', () => {
       if (c.situacao_candidatura.trim().toUpperCase() === 'DEFERIDO') await expect(situacao).toHaveCount(0);
       else await expect(situacao).toBeVisible();
       if (c.reeleicao) {
-        await expect(s.getByText('Deputado federal, tenta a reeleição', { exact: true })).toBeVisible();
-        await expect(s.getByText(`${c.mandatos} ${c.mandatos === 1 ? 'mandato' : 'mandatos'}`, { exact: true })).toBeVisible();
+        // Raio-X (03/10/2026): "PARTIDO · DEPUTADO FEDERAL" em cima e os mandatos no extrato.
+        await expect(s.locator('.papel')).toContainText('Deputado federal');
+        await expect(
+          s.getByText('Mandatos de deputado federal', { exact: true }).locator('xpath=following-sibling::dd')
+        ).toHaveText(String(c.mandatos));
       } else {
         // Quem não é deputado: o último cargo no lugar dos mandatos (FR-038).
         await expect(s.getByText(/^Já foi /), c.nome_urna).toBeVisible();
@@ -58,22 +61,31 @@ test.describe('Cenário 2: reconhecer os de extrema direita', () => {
     expect(marcados.length, 'dados reais sem candidato de partido marcado').toBeGreaterThan(0);
     await abrir(page);
     await expect(santinhos(page)).toHaveCount(candidatos.length);
+    // Raio-X (03/10/2026): no cartão de quem tenta a reeleição, a marca fica na linha de cima
+    // ("PL · EXTREMA DIREITA · DEPUTADO FEDERAL"), em vermelho, no lugar da faixa do topo.
+    const ed = (c: (typeof marcados)[number]) => santinho(page, c).locator('.papel .ed');
     for (const c of marcados) {
       const s = santinho(page, c);
       await expect(s, c.nome_urna).toBeVisible();
+      if (c.reeleicao) {
+        await expect(ed(c), c.nome_urna).toHaveText('Extrema direita');
+        await expect(ed(c), c.nome_urna).toBeVisible();
+        continue;
+      }
       await expect(s.getByText(MARCA, { exact: true }), c.nome_urna).toBeVisible();
       await expect(s.getByText(MARCA_SR, { exact: true }), c.nome_urna).toHaveCount(1);
     }
     for (const c of naoMarcados) {
       await expect(santinho(page, c).getByText(MARCA, { exact: true }), c.nome_urna).toHaveCount(0);
       await expect(santinho(page, c).getByText(MARCA_SR), c.nome_urna).toHaveCount(0);
+      await expect(ed(c), c.nome_urna).toHaveCount(0);
     }
-    await expect(page.getByText(MARCA, { exact: true })).toHaveCount(marcados.length);
+    await expect(page.getByText(MARCA, { exact: true })).toHaveCount(marcados.filter((c) => !c.reeleicao).length);
   });
 
   test('a marca é grande e vermelha, à parte do resto do cartão', async ({ page }) => {
     await abrir(page);
-    const marca = santinho(page, marcados[0]).getByText(MARCA, { exact: true });
+    const marca = santinho(page, marcados.find((c) => !c.reeleicao)!).getByText(MARCA, { exact: true });
     const estilo = await marca.evaluate((el) => {
       const nome = el.closest('article')!.querySelector('h3')!;
       return {
@@ -110,7 +122,9 @@ test.describe('Cenário 2: reconhecer os de extrema direita', () => {
       if (doPartido.length === 0) continue;
       await page.getByRole('button', { name: sigla, exact: true }).click();
       await expect(santinhos(page)).toHaveCount(doPartido.length);
-      await expect(page.getByText(MARCA, { exact: true })).toHaveCount(doPartido.length);
+      // Raio-X: da reeleição, a marca vai na linha de cima do cartão (.papel .ed).
+      await expect(page.getByText(MARCA, { exact: true })).toHaveCount(doPartido.filter((c) => !c.reeleicao).length);
+      await expect(page.locator('article .papel .ed')).toHaveCount(doPartido.filter((c) => c.reeleicao).length);
       await expect(visorContagem(page, doPartido.length)).toBeVisible();
       await page.getByRole('button', { name: sigla, exact: true }).click();
     }

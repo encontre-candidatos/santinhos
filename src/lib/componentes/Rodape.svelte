@@ -79,10 +79,30 @@
   </section>
 
   <section>
+    <h2>Raio-X de quem tenta a reeleição</h2>
+    <p>
+      O cartão de cada deputado que tenta a reeleição mostra como ele votou em quatro votações da
+      Câmara e quantos alertas tem. Cada votação tem um "?" com a explicação.
+    </p>
+    <ul>
+      <li><b>Votou com o governo:</b> em quantas votações de 2026 o deputado votou igual ao que o governo Lula orientou (Sim ou Não). Não é alerta.</li>
+      <li><b>Presença em 2026:</b> em quantas votações de 2026 o deputado apareceu para votar. Abaixo de 75% vira alerta.</li>
+      <li><b>PEC da Blindagem:</b> votar Sim é alerta.</li>
+      <li><b>Fim da escala 6x1:</b> assinar as Emendas 1 e 2, que enfraqueciam a mudança, ou votar contra é alerta.</li>
+      <li><b>PL da Devastação:</b> votar Sim é alerta.</li>
+      <li><b>Reforma tributária:</b> votar Não é alerta.</li>
+    </ul>
+    <p>
+      Faltar a uma dessas votações não é alerta: a linha fica tracejada. Patrimônio e mandatos
+      aparecem no cartão, mas não contam como alerta. Patrimônio em valores nominais.
+    </p>
+  </section>
+
+  <section>
     <h2>Fim da escala 6x1</h2>
     <p>
-      O selo mostra o que cada um fez na votação da Câmara que aprovou o fim da escala 6x1, em
-      27/05/2026 (PEC 221/2019).
+      O selo e a linha do Raio-X mostram o que cada um fez na votação da Câmara que aprovou o fim da
+      escala 6x1, em 27/05/2026 (PEC 221/2019).
     </p>
     <ul>
       <li><b>Votou a favor:</b> votou sim na votação final.</li>
@@ -109,6 +129,10 @@
       votou em todas.
     </p>
     <p>Abaixo de 5 em 10, as bolinhas e a frase ficam em vermelho.</p>
+    <p>
+      No cartão de quem tenta a reeleição, a mesma conta aparece em porcentagem ("Presença em
+      2026"), e abaixo de 75% ela fica em vermelho e conta como alerta.
+    </p>
     <p>
       Conta como "votou" qualquer registro na votação, inclusive abstenção e obstrução. Falta
       justificada, como missão autorizada ou licença curta para tratamento de saúde, conta como

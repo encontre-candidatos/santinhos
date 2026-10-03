@@ -1,45 +1,25 @@
 // Cenário 10 da spec (T061): participação nas votações de 2026 no santinho, contra o build e os
 // dados reais. Frase e cor esperadas de cada cartão saem de candidatos.json pela mesma função do
 // app; os casos que a base real não tem (10 em 10, menos de 1) estão em tests/unit/participacao.test.ts.
-import { expect, test, type Locator } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { fraseParticipacao, fraseParticipacaoSr, participacao } from '../../src/lib/formatar/participacao';
+import { pct, presenca, presencaAlerta } from '../../src/lib/formatar/raio-x';
 import { abrir, deputados as candidatos, santinho } from './apoio';
-import type { Candidato } from '../../src/lib/tipos';
 
 const de = (nome: string) => candidatos.find((c) => c.nome_urna === nome)!;
-/** O bloco: o pai da frase para leitor de tela. */
-const bloco = (s: Locator, c: Candidato) =>
-  s.getByText(fraseParticipacaoSr(participacao(c.votacoes_2026)), { exact: true }).locator('xpath=..');
 
 test.describe('Cenário 10: ver quanto o candidato vota', () => {
-  test('todo cartão traz a frase, as bolinhas e a cor da sua conta (FR-031 a FR-035)', async ({ page }) => {
+  // Raio-X (03/10/2026): no cartão de quem tenta a reeleição, a conta aparece em porcentagem
+  // ("Presença em 2026"), em vermelho abaixo de 75% (regra da página do Raio-X). As bolinhas
+  // seguem no cartão de ex-deputado (tests/e2e/participacao-anterior.spec.ts).
+  test('todo cartão da reeleição traz a presença de 2026 em porcentagem, em vermelho abaixo de 75%', async ({ page }) => {
     await abrir(page);
     for (const c of candidatos) {
-      const p = participacao(c.votacoes_2026);
-      const s = santinho(page, c);
-      const b = bloco(s, c);
-      await expect(b, c.nome_urna).toHaveCount(1);
-      await expect(b.getByText(fraseParticipacao(p), { exact: true }), c.nome_urna).toBeVisible();
-      await expect(b.locator('i'), c.nome_urna).toHaveCount(p.sem ? 0 : 10);
-      const cor = await b.evaluate((el) => getComputedStyle(el.querySelector('b')!).color);
-      const token = async (nome: string) =>
-        page.evaluate((nome) => {
-          const t = document.createElement('span');
-          t.style.color = `var(${nome})`;
-          document.body.append(t);
-          const cor = getComputedStyle(t).color;
-          t.remove();
-          return cor;
-        }, nome);
-      if (p.sem) {
-        expect(cor, c.nome_urna).toBe(await token('--tinta-2'));
-        continue;
-      }
-      const cheias = await b.locator('i').evaluateAll((els) =>
-        els.filter((el) => getComputedStyle(el).backgroundColor !== 'rgba(0, 0, 0, 0)').length
-      );
-      expect(cheias, c.nome_urna).toBe(p.n);
-      expect(cor === (await token('--carimbo')), c.nome_urna).toBe(p.vermelho);
+      const dd = santinho(page, c).getByText('Presença em 2026', { exact: true }).locator('xpath=following-sibling::dd');
+      await expect(dd, c.nome_urna).toHaveText(pct(presenca(c.votacoes_2026)));
+      const vermelho = await dd.evaluate((el) => el.classList.contains('alerta'));
+      expect(vermelho, c.nome_urna).toBe(presencaAlerta(c.votacoes_2026));
+      await expect(santinho(page, c).getByText(fraseParticipacaoSr(participacao(c.votacoes_2026)), { exact: true }), c.nome_urna).toHaveCount(0);
     }
   });
 
@@ -62,23 +42,15 @@ test.describe('Cenário 10: ver quanto o candidato vota', () => {
   });
 
   for (const largura of [360, 768, 1280]) {
-    test(`o bloco acrescenta no máximo 56 px ao cartão a ${largura} px (NFR-018), sem estourar a largura`, async ({ page }) => {
+    test(`a linha de presença cabe no cartão a ${largura} px, sem estourar a largura`, async ({ page }) => {
       await page.setViewportSize({ width: largura, height: 900 });
       await abrir(page);
-      // Um de cada tipo: preto, vermelho, sem bolinhas.
       for (const c of [de('PAULO GUEDES'), de('PINHEIRINHO'), de('GILMAR MACHADO')]) {
         const s = santinho(page, c);
-        const b = bloco(s, c);
-        const com = (await s.boundingBox())!.height;
-        await b.evaluate((el) => ((el as HTMLElement).style.display = 'none'));
-        const sem = (await s.boundingBox())!.height;
-        await b.evaluate((el) => ((el as HTMLElement).style.display = ''));
-        expect(com - sem, c.nome_urna).toBeLessThanOrEqual(56);
-        // As 10 bolinhas cabem no cartão (a 768 px a coluna é a mais estreita).
-        if (c.votacoes_2026 === null) continue;
-        const ultima = (await b.locator('i').last().boundingBox())!;
+        const dd = s.getByText('Presença em 2026', { exact: true }).locator('xpath=following-sibling::dd');
+        const v = (await dd.boundingBox())!;
         const cartao = (await s.boundingBox())!;
-        expect(ultima.x + ultima.width, c.nome_urna).toBeLessThanOrEqual(cartao.x + cartao.width);
+        expect(v.x + v.width, c.nome_urna).toBeLessThanOrEqual(cartao.x + cartao.width);
       }
       const larguras = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
       expect(larguras[0]).toBeLessThanOrEqual(larguras[1]);

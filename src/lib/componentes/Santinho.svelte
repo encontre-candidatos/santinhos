@@ -19,22 +19,27 @@
   A foto não fica em cinza pela Blindagem: 36 dos 48 levam o carimbo, e o cinza apagaria a mesa.
   Ex-deputado federal fora do mandato (FR-070, WP18): o bloco de participação do último mandato,
   com o período no rótulo, no lugar onde o deputado tem o de 2026.
+  Raio-X da reeleição (03/10/2026): o cartão de quem tenta a reeleição segue a página "Raio-X da
+  reeleição" (static/raio-x, branch raio-x-publicar). Fio do partido no topo, foto limpa (sem
+  carimbos nem cinza), "PARTIDO · DEPUTADO FEDERAL", nome, selo de alertas, número, extrato e as
+  quatro votações-chave (RaioX). Carimbos da Blindagem e do patrimônio, selo da 6x1, bloco de
+  participação e a faixa "EXTREMA DIREITA" saem desse cartão: o que diziam está nas linhas e nos
+  alertas. A marca de extrema direita (FR-006) fica na linha de cima: "PL · EXTREMA DIREITA".
+  As chaves de "Esconder quem tem" seguem as mesmas regras ($lib/marcas), não o desenho.
+  Os cartões de quem não tenta a reeleição (WP13) ficam como estavam.
 -->
 <script lang="ts">
   import type { Candidato, Municipio } from '$lib/tipos';
-  import { votouBlindagem } from '$lib/formatar/blindagem';
-  import { EXPLICA_GOVERNO, FONTE_GOVERNO, fraseGovernoExata, governoDe10 } from '$lib/formatar/governo';
   import { EXPLICA_REGIAO, FONTE_REGIAO, fraseRegiao } from '$lib/formatar/regiao';
-  import CarimboBlindagem from './CarimboBlindagem.svelte';
   import Explica from './Explica.svelte';
   import { marcaCrescimento } from '$lib/formatar/crescimento';
   import { formatarPatrimonio } from '$lib/formatar/patrimonio';
-  import { selo6x1 } from '$lib/formatar/selo6x1';
   import Carimbo from './Carimbo.svelte';
   import CarimboPatrimonio from './CarimboPatrimonio.svelte';
-  import Selo6x1 from './Selo6x1.svelte';
   import Participacao from './Participacao.svelte';
   import JaFoi from './JaFoi.svelte';
+  import RaioX from './RaioX.svelte';
+  import { contarAlertas, quaisAlertas } from '$lib/formatar/raio-x';
 
   interface Props {
     candidato: Candidato;
@@ -52,8 +57,6 @@
 
   let { candidato, marcado, corPartido, base, indice, transparente = false, fora = false, onindicar, cidade = null }: Props = $props();
 
-  const blindou = $derived(votouBlindagem(candidato.blindagem));
-  const gov = $derived(governoDe10(candidato.governo_2026));
   const regiao = $derived(fraseRegiao(candidato, cidade));
 
   const ROTACOES = [-1.2, 0.8, -0.4, 1.3, -0.9, 0.5];
@@ -61,7 +64,6 @@
 
   const cresceu = $derived(marcaCrescimento(candidato));
   const deputado = $derived(candidato.reeleicao);
-  const enfraqueceu = $derived(candidato.voto_6x1 !== null && selo6x1(candidato.voto_6x1).situacao === 'enfraquecer');
   const rotacao = $derived(ROTACOES[((indice % 6) + 6) % 6]);
   const src = $derived(
     candidato.foto ? `${base.replace(/\/$/, '')}/${candidato.foto.replace(/^\//, '')}` : null
@@ -82,20 +84,26 @@
   const trocou = $derived(candidato.partido_posse !== null && candidato.partido !== candidato.partido_posse);
   const digitos = $derived([...candidato.numero_urna]);
   const patrimonio = $derived(formatarPatrimonio(candidato.patrimonio_total));
+  // Raio-X (só quem tenta a reeleição).
+  const nAlertas = $derived(deputado ? contarAlertas(candidato) : 0);
+  const quais = $derived(deputado ? quaisAlertas(candidato) : []);
+  const alinhamento = $derived(
+    candidato.governo_2026 && candidato.governo_2026.total > 0 ? candidato.governo_2026.com / candidato.governo_2026.total : null
+  );
 </script>
 
 <article
   class="santinho"
-  class:marcado
-  class:cresceu
-  class:enfraqueceu
+  class:rx={deputado}
+  class:marcado={marcado && !deputado}
+  class:cresceu={cresceu && !deputado}
   class:transparente
   hidden={fora}
   aria-labelledby="{uid}-nome"
   style:--r="{rotacao}deg"
   style:--cor={corPartido}
 >
-  {#if marcado}<Carimbo />{:else}<div class="faixa"></div>{/if}
+  {#if marcado && !deputado}<Carimbo />{:else}<div class="faixa"></div>{/if}
 
   {#if transparente}
     <p class="achado">Nunca teve cargo eletivo. Aparece porque você buscou o número.</p>
@@ -117,54 +125,70 @@
       </div>
     {/if}
     <!-- Só monta com carimbo: cada instância liga dois ouvintes no document (NFR-020, 756 cartões). -->
-    {#if cresceu}<CarimboPatrimonio {candidato} />{/if}
-    {#if blindou && candidato.blindagem}<CarimboBlindagem voto={candidato.blindagem} />{/if}
+    {#if !deputado && cresceu}<CarimboPatrimonio {candidato} />{/if}
   </div>
 
   <div class="corpo">
-    {#if deputado}<p class="papel">Deputado federal, tenta a reeleição</p>{/if}
-    <h3 class="nome" id="{uid}-nome">{candidato.nome_urna}</h3>
-    <div class="meta">
-      <span><b>{candidato.partido}</b></span>
-      {#if deputado}
-        <span>{candidato.mandatos} {candidato.mandatos === 1 ? 'mandato' : 'mandatos'}</span>
+    {#if deputado}
+      <div class="topo">
+        <div>
+          <p class="papel"><span>{candidato.partido}</span>{' · '}{#if marcado}<b class="ed">Extrema direita</b>{' · '}{/if}Deputado federal</p>
+          <h3 class="nome" id="{uid}-nome">{candidato.nome_urna}</h3>
+        </div>
+        <div class="alertas" class:tem={nAlertas > 0} class:zero={nAlertas === 0}>
+          <b aria-hidden="true">{nAlertas}</b><small aria-hidden="true">{nAlertas === 1 ? 'alerta' : 'alertas'}</small>
+          <span class="sr">{nAlertas === 0 ? 'Nenhum alerta' : `${nAlertas} ${nAlertas === 1 ? 'alerta' : 'alertas'}: ${quais.join(', ')}`}</span>
+        </div>
+      </div>
+      {#if candidato.condicao === 'suplente_em_exercicio' || trocou}
+        <p class="meta-rx">
+          {#if candidato.condicao === 'suplente_em_exercicio'}<span>Suplente em exercício</span>{/if}
+          {#if trocou}<span>Tomou posse pelo {candidato.partido_posse}</span>{/if}
+        </p>
       {/if}
-      {#if candidato.condicao === 'suplente_em_exercicio'}<span>suplente em exercício</span>{/if}
-    </div>
-    {#if !deputado && !transparente}<JaFoi cargos={candidato.cargos_anteriores} />{/if}
-    {#if trocou}
-      <div class="troca">Tomou posse pelo {candidato.partido_posse}</div>
-    {/if}
-    {#if regiao}
-      <p class="regiao">
-        <span>{regiao}</span>
-        <Explica titulo="Sua cidade em 2022" texto={EXPLICA_REGIAO} fonte={FONTE_REGIAO} />
-      </p>
-    {/if}
-    <div class="num">
-      <span class="rot" aria-hidden="true">Número</span>
-      <div class="digitos" role="img" aria-label="Número {candidato.numero_urna}">
-        {#each digitos as d, i (i)}<i aria-hidden="true">{d}</i>{/each}
+      {#if regiao}
+        <p class="regiao">
+          <span>{regiao}</span>
+          <Explica titulo="Sua cidade em 2022" texto={EXPLICA_REGIAO} fonte={FONTE_REGIAO} />
+        </p>
+      {/if}
+      <div class="num">
+        <span class="rot" aria-hidden="true">Número</span>
+        <div class="digitos" role="img" aria-label="Número {candidato.numero_urna}">
+          {#each digitos as d, i (i)}<i aria-hidden="true">{d}</i>{/each}
+        </div>
       </div>
-    </div>
-    <dl class="patrimonio">
-      <dt>Patrimônio declarado</dt>
-      <dd class:nenhum={candidato.patrimonio_total === null}>{patrimonio}</dd>
-    </dl>
-    {#if candidato.voto_6x1}
-      <Selo6x1 voto={candidato.voto_6x1} />
-      <Participacao votacoes={candidato.votacoes_2026} />
-    {:else if candidato.votacoes_mandato_anterior}
-      {@const m = candidato.votacoes_mandato_anterior}
-      <Participacao votacoes={'sem_dados' in m ? null : m} periodo={m} />
-    {/if}
-    {#if gov !== null && candidato.governo_2026}
-      <div class="governo">
-        <p class="sr">{fraseGovernoExata(candidato.governo_2026)}</p>
-        <span class="g-rot" aria-hidden="true">Com o governo em 2026</span>
-        <span class="g-val" aria-hidden="true">{gov} de cada 10</span>
-        <Explica titulo="Lado no governo Lula" texto={EXPLICA_GOVERNO} fonte={FONTE_GOVERNO} />
+      <RaioX {candidato} governo={alinhamento} />
+    {:else}
+      <h3 class="nome" id="{uid}-nome">{candidato.nome_urna}</h3>
+      <div class="meta">
+        <span><b>{candidato.partido}</b></span>
+        {#if candidato.condicao === 'suplente_em_exercicio'}<span>suplente em exercício</span>{/if}
       </div>
+      {#if !transparente}<JaFoi cargos={candidato.cargos_anteriores} />{/if}
+      {#if trocou}
+        <div class="troca">Tomou posse pelo {candidato.partido_posse}</div>
+      {/if}
+      {#if regiao}
+        <p class="regiao">
+          <span>{regiao}</span>
+          <Explica titulo="Sua cidade em 2022" texto={EXPLICA_REGIAO} fonte={FONTE_REGIAO} />
+        </p>
+      {/if}
+      <div class="num">
+        <span class="rot" aria-hidden="true">Número</span>
+        <div class="digitos" role="img" aria-label="Número {candidato.numero_urna}">
+          {#each digitos as d, i (i)}<i aria-hidden="true">{d}</i>{/each}
+        </div>
+      </div>
+      <dl class="patrimonio">
+        <dt>Patrimônio declarado</dt>
+        <dd class:nenhum={candidato.patrimonio_total === null}>{patrimonio}</dd>
+      </dl>
+      {#if candidato.votacoes_mandato_anterior}
+        {@const m = candidato.votacoes_mandato_anterior}
+        <Participacao votacoes={'sem_dados' in m ? null : m} periodo={m} />
+      {/if}
     {/if}
     {#if alerta}
       <span class="situacao alerta">{candidato.situacao_candidatura}</span>
@@ -222,6 +246,63 @@
   .faixa {
     height: 8px;
     background: var(--cor);
+  }
+
+  /* Raio-X da reeleição: topo com nome e selo de alertas (mesmas medidas da página do Raio-X). */
+  .rx .corpo {
+    gap: 10px;
+  }
+  .topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .topo > div:first-child {
+    min-width: 0;
+  }
+  .topo .nome {
+    margin-top: 2px;
+  }
+  .papel .ed {
+    color: var(--carimbo);
+    font-weight: 700;
+  }
+  .alertas {
+    flex: none;
+    text-align: center;
+    border: 2px solid var(--tinta);
+    padding: 4px 8px 5px;
+    min-width: 64px;
+  }
+  .alertas b {
+    display: block;
+    font: 800 30px/1 var(--display);
+    font-variant-numeric: tabular-nums;
+  }
+  .alertas small {
+    display: block;
+    font: 500 9.5px var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .alertas.tem {
+    background: var(--carimbo);
+    border-color: var(--carimbo);
+    color: var(--carimbo-tx);
+  }
+  .alertas.zero {
+    background: var(--favor-fundo);
+    border-color: var(--favor);
+    color: var(--favor);
+  }
+  .meta-rx {
+    margin: -4px 0 0;
+    font-size: 12.5px;
+    color: var(--tinta-2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
   }
 
   /* Oculto achado pelo número (FR-037): só foto e faixa esmaecem (o carimbo de patrimônio, não); o texto mantém o contraste (NFR-004). */
@@ -305,9 +386,7 @@
   .marcado .foto img,
   .marcado .foto .iniciais,
   .cresceu .foto img,
-  .cresceu .foto .iniciais,
-  .enfraqueceu .foto img,
-  .enfraqueceu .foto .iniciais {
+  .cresceu .foto .iniciais {
     filter: grayscale(1) contrast(0.9);
   }
 
@@ -355,33 +434,6 @@
     flex: 1;
     min-width: 0;
   }
-  /* Lado no governo: mesma linha de extrato do patrimônio, em tinta (é lado, não defeito). */
-  .governo {
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    margin-top: -4px;
-    padding-top: 4px;
-    border-top: 1.5px dotted var(--tinta-2);
-  }
-  .g-rot {
-    flex: 1 1 0;
-    min-width: 0;
-    font: 500 10.5px/1.2 var(--mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--tinta-2);
-  }
-  .g-val {
-    flex: none;
-    font: 800 22px/1 var(--display);
-    white-space: nowrap;
-  }
-  .governo :global(.q) {
-    align-self: center;
-  }
-
   .num {
     display: flex;
     align-items: flex-end;

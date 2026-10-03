@@ -88,11 +88,12 @@ test.describe('Cenário 11: ver todos os candidatos, sem afogar', () => {
     await expect(s.getByText('Deputado federal, tenta a reeleição')).toHaveCount(0);
   });
 
-  test('deputado que tenta a reeleição segue com os blocos de antes (FR-039)', async ({ page }) => {
+  test('deputado que tenta a reeleição traz o Raio-X (FR-039; cartão do Raio-X desde 03/10/2026)', async ({ page }) => {
     await abrir(page);
     const s = santinho(page, deputados[0]);
-    await expect(s.getByText('Deputado federal, tenta a reeleição', { exact: true })).toBeVisible();
+    await expect(s.locator('.papel')).toContainText('Deputado federal');
     await expect(s.getByText('Fim da escala 6x1').first()).toBeVisible();
+    await expect(s.locator('.alertas')).toBeVisible();
     await expect(s.getByRole('link', { name: /^Câmara/ })).toBeVisible();
   });
 });

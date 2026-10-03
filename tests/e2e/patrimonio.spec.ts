@@ -4,6 +4,7 @@
 // está coberto em tests/unit/patrimonio.test.ts.
 import { expect, test } from '@playwright/test';
 import { formatarPatrimonio, SEM_BENS } from '../../src/lib/formatar/patrimonio';
+import { brlCurto } from '../../src/lib/formatar/raio-x';
 import { abrir, candidatos, santinho } from './apoio';
 
 test.describe('Cenário 6: ver o patrimônio declarado', () => {
@@ -12,6 +13,12 @@ test.describe('Cenário 6: ver o patrimônio declarado', () => {
     await abrir(page);
     for (const c of candidatos) {
       const s = santinho(page, c);
+      if (c.reeleicao) {
+        // Raio-X (03/10/2026): extrato com 2026 e 2022, valores curtos como na página do Raio-X.
+        await expect(s.locator('dt').getByText(`Patrimônio 2026 (em 2022: ${brlCurto(c.patrimonio_2022)})`), c.nome_urna).toBeVisible();
+        await expect(s.locator('dd').getByText(brlCurto(c.patrimonio_total), { exact: true }), c.nome_urna).toBeVisible();
+        continue;
+      }
       // Só no rótulo (dt): o carimbo do WP09 também diz "PATRIMÔNIO DECLARADO".
       await expect(s.locator('dt').getByText('Patrimônio declarado'), c.nome_urna).toBeVisible();
       await expect(s.getByText('TSE 2026', { exact: true })).toHaveCount(0);
@@ -29,7 +36,8 @@ test.describe('Cenário 6: ver o patrimônio declarado', () => {
     const s = santinho(page, maior);
     await s.scrollIntoViewIfNeeded();
     const caixaCartao = (await s.boundingBox())!;
-    const caixaValor = (await s.getByText(formatarPatrimonio(maior.patrimonio_total), { exact: true }).boundingBox())!;
+    const texto = maior.reeleicao ? brlCurto(maior.patrimonio_total) : formatarPatrimonio(maior.patrimonio_total);
+    const caixaValor = (await s.getByText(texto, { exact: true }).boundingBox())!;
     expect(caixaValor.x + caixaValor.width).toBeLessThanOrEqual(caixaCartao.x + caixaCartao.width + 1);
     const larguras = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
     expect(larguras[0]).toBeLessThanOrEqual(larguras[1]);

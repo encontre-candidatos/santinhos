@@ -24,12 +24,17 @@ test.describe('NFR-003: 360 px sem rolagem horizontal', () => {
     const largura = () => page.evaluate(() => document.documentElement.scrollWidth);
     expect(await largura()).toBeLessThanOrEqual(360);
     // a marca "EXTREMA DIREITA" cabe na largura do santinho, sem estourar
+    // (Raio-X, 03/10/2026: no cartão da reeleição a marca vai na linha de cima, .papel .ed)
     const marcas = page.getByText('EXTREMA DIREITA', { exact: true });
-    await expect(marcas).toHaveCount(marcados.length);
+    await expect(marcas).toHaveCount(marcados.filter((c) => !c.reeleicao).length);
     const estouradas = await marcas.evaluateAll((els) =>
       els.filter((el) => el.scrollWidth > el.clientWidth + 1).length
     );
     expect(estouradas).toBe(0);
+    const linhas = page.locator('article .papel');
+    await expect(page.locator('article .papel .ed')).toHaveCount(marcados.filter((c) => c.reeleicao).length);
+    const linhasEstouradas = await linhas.evaluateAll((els) => els.filter((el) => el.scrollWidth > el.clientWidth + 1).length);
+    expect(linhasEstouradas).toBe(0);
     expect(await largura()).toBeLessThanOrEqual(360);
   });
 });

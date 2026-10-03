@@ -23,8 +23,8 @@ const OITO = [
 
 const selo = (s: Locator) => s.getByRole('button', { name: /^Patrimônio declarado .+ vezes maior que em \d{4}, já descontada a inflação \(IPCA\)/ });
 const porNome = (nome: string) => deputados.find((c) => c.nome_urna === nome)!;
-/** O primeiro à mostra com carimbo e declaração anterior do ano pedido. */
-const marcadoDe = (ano: number) => candidatos.find((c) => marcaCrescimento(c) && anoComparacao(c) === ano)!;
+/** O primeiro à mostra com carimbo e declaração anterior do ano pedido (carimbo só fora da reeleição desde o Raio-X). */
+const marcadoDe = (ano: number) => candidatos.find((c) => !c.reeleicao && marcaCrescimento(c) && anoComparacao(c) === ano)!;
 
 async function conferirCarimbo(page: Page, c: Candidato) {
   const s = santinho(page, c);
@@ -46,10 +46,14 @@ test.describe('Cenário 13: crescimento do patrimônio descontada a inflação',
     await expect(selo(santinho(page, m))).toHaveCount(0);
   });
 
-  test('entre os 48 da reeleição, os 8 da conta têm carimbo, com o ano e o leitor de tela', async ({ page }) => {
+  test('entre os 48 da reeleição, os 8 da conta têm a marca; no cartão do Raio-X, o patrimônio vai no extrato', async ({ page }) => {
     expect(deputados.filter(marcaCrescimento).map((c) => c.nome_urna).sort()).toEqual([...OITO].sort());
     await abrir(page);
-    for (const nome of OITO) await conferirCarimbo(page, porNome(nome));
+    for (const nome of OITO) {
+      const s = santinho(page, porNome(nome));
+      await expect(selo(s), nome).toHaveCount(0);
+      await expect(s.getByText(/^Patrimônio 2026 \(em 2022: /), nome).toBeVisible();
+    }
   });
 
   test('quem não tenta a reeleição também tem carimbo, comparado com o próprio ano', async ({ page }) => {

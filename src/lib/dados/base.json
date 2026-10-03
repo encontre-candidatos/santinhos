@@ -85,6 +85,16 @@
       "nome": "Câmara dos Deputados — Dados Abertos, PEC 3/2021 (PEC da Blindagem), Plenário, 16/09/2025",
       "url": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2270800",
       "arquivo_ou_endpoint": "GET /votacoes/2270800-135/votos; GET /votacoes/2270800-160/votos; GET /deputados/{id}/historico"
+    },
+    {
+      "nome": "Câmara dos Deputados — Dados Abertos, PL 2159/2021 (PL da Devastação, licenciamento ambiental), Plenário, sessão de 16/07/2025: Emendas do Senado",
+      "url": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/257161",
+      "arquivo_ou_endpoint": "GET /votacoes/257161-454/votos; GET /deputados/{id}/historico"
+    },
+    {
+      "nome": "Câmara dos Deputados — Dados Abertos, PEC 45/2019 (Reforma tributária), Plenário, 1º e 2º turno, sessão de 06/07/2023",
+      "url": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2196833",
+      "arquivo_ou_endpoint": "GET /votacoes/2196833-326/votos; GET /votacoes/2196833-373/votos; GET /deputados/{id}/historico"
     }
   ],
   "total_deputados_mg": 53,

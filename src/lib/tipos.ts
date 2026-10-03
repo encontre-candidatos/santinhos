@@ -27,6 +27,8 @@ export interface Candidato {
   regiao_2022: Regiao2022 | null;  // votos de 2022 a deputado federal por MG; null = não disputou (versão 4310)
   governo_2026: Governo2026 | null; // votos iguais à orientação do Governo em 2026; null = não é deputado ou sem votação
   blindagem: Blindagem | null;     // PEC 3/2021 (PEC da Blindagem), 16/09/2025; null = não é deputado
+  devastacao: VotoPlenario;        // PL 2159/2021 (PL da Devastação), 17/07/2025; null = fora do exercício na data ou não é deputado
+  reforma_tributaria: Blindagem | null; // PEC 45/2019 (Reforma tributária), 1º e 2º turno, julho de 2023; null = não é deputado
 }
 
 /**

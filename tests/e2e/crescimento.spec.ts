@@ -24,16 +24,19 @@ const ESPERADOS_03_10_2026 = [
 ];
 
 // Desde o WP13 a mesa tem quem não é deputado: o carimbo segue a mesma regra para todos.
-const comCarimbo = candidatos.filter(marcaCrescimento);
+// Raio-X (03/10/2026): o cartão de quem tenta a reeleição não leva mais o carimbo (o patrimônio
+// de 2022 e de 2026 está no extrato dele); a regra continua valendo para "Esconder quem tem".
+const comCarimbo = candidatos.filter((c) => !c.reeleicao && marcaCrescimento(c));
 const deputadosComCarimbo = candidatos.filter((c) => c.reeleicao && marcaCrescimento(c));
-const semCarimbo = candidatos.filter((c) => !marcaCrescimento(c));
+const semCarimbo = candidatos.filter((c) => c.reeleicao || !marcaCrescimento(c));
+const exemplo = comCarimbo[0];
 const porNome = (nome: string) => candidatos.find((c) => c.nome_urna === nome)!;
 
 const selo = (s: Locator) =>
   s.getByRole('button', { name: /^Patrimônio declarado .+ vezes maior que em \d{4}, já descontada a inflação \(IPCA\): de R\$/ });
 
 test.describe('Cenário 7: ver quem multiplicou o patrimônio declarado', () => {
-  test('na base de 03/10/2026, exatamente os 8 deputados da conta têm carimbo', async ({ page }) => {
+  test('na base de 03/10/2026, exatamente os 8 deputados da conta têm a marca; carimbo só fora da reeleição', async ({ page }) => {
     expect(deputadosComCarimbo.map((c) => c.nome_urna).sort()).toEqual([...ESPERADOS_03_10_2026].sort());
     await abrir(page);
     await expect(selo(page.locator('body'))).toHaveCount(comCarimbo.length);
@@ -54,26 +57,33 @@ test.describe('Cenário 7: ver quem multiplicou o patrimônio declarado', () => 
         .first()
         .evaluate((el) => getComputedStyle(el).filter);
       const cinza =
-        marcaCrescimento(c) || siglas.has(c.partido) || (c.voto_6x1 !== null && selo6x1(c.voto_6x1).situacao === 'enfraquecer');
+        !c.reeleicao &&
+        (marcaCrescimento(c) || siglas.has(c.partido) || (c.voto_6x1 !== null && selo6x1(c.voto_6x1).situacao === 'enfraquecer'));
       expect(filtro.includes('grayscale'), c.nome_urna).toBe(cinza);
     }
   });
 
-  test('89× com os valores nominal, corrigido e de 2026 no leitor de tela (106× sem o IPCA)', async ({ page }) => {
-    await abrir(page);
-    const s = santinho(page, porNome('NIKOLAS FERREIRA'));
-    await expect(selo(s)).toHaveAccessibleName(
+  test('89× (106× sem o IPCA) é conta da base; no cartão do Raio-X, o patrimônio vai no extrato', async ({ page }) => {
+    const c = porNome('NIKOLAS FERREIRA');
+    expect(textoLeitorCrescimento(c)).toBe(
       'Patrimônio declarado 89 vezes maior que em 2022, já descontada a inflação (IPCA): ' +
-        'de R$ 36.820 em 2022 (R$ 43.992 em valores de 2026) para R$ 3.898.457. Ver detalhes'
+        'de R$ 36.820 em 2022 (R$ 43.992 em valores de 2026) para R$ 3.898.457'
     );
-    await expect(s.getByText('PATRIMÔNIO DECLARADO', { exact: true })).toBeVisible();
-    await expect(s.getByText('89×', { exact: true })).toBeVisible();
-    await expect(s.getByText('QUE EM 2022', { exact: true })).toBeVisible();
+    await abrir(page);
+    const s = santinho(page, c);
+    await expect(selo(s)).toHaveCount(0);
+    await expect(s.getByText('Patrimônio 2026 (em 2022: R$ 37 mil)', { exact: true })).toBeVisible();
+    await expect(s.getByText('R$ 3,9 milhões', { exact: true })).toBeVisible();
+    // Fora da reeleição, o carimbo com o ano da declaração anterior.
+    const o = santinho(page, exemplo);
+    await expect(o.getByText('PATRIMÔNIO DECLARADO', { exact: true })).toBeVisible();
+    await expect(o.getByText(textoMultiplicador(crescimentoPatrimonio(exemplo)!), { exact: true })).toBeVisible();
+    await expect(o.getByText(`QUE EM ${exemplo.patrimonio_anterior!.ano}`, { exact: true })).toBeVisible();
   });
 
   test('o carimbo abre o balão com o ano antigo (nominal e corrigido), 2026, a frase e o DivulgaCand; Esc fecha', async ({ page }) => {
     await abrir(page);
-    const c = porNome('NIKOLAS FERREIRA');
+    const c = exemplo;
     const s = santinho(page, c);
     await selo(s).click();
     await expect(selo(s)).toHaveAttribute('aria-expanded', 'true');
@@ -81,7 +91,7 @@ test.describe('Cenário 7: ver quem multiplicou o patrimônio declarado', () => 
     await expect(balao).toBeVisible();
     await expect(balao.getByRole('heading')).toBeFocused();
     await expect(balao.getByText(formatarPatrimonio(c.patrimonio_anterior!.valor), { exact: true })).toBeVisible();
-    await expect(balao.getByText('2022 corrigido', { exact: true })).toBeVisible();
+    await expect(balao.getByText(`${c.patrimonio_anterior!.ano} corrigido`, { exact: true })).toBeVisible();
     await expect(balao.getByText(formatarPatrimonio(valorCorrigido(c.patrimonio_anterior)), { exact: true })).toBeVisible();
     await expect(balao.getByText(formatarPatrimonio(c.patrimonio_total), { exact: true })).toBeVisible();
     await expect(balao.getByText(fraseCrescimento(c, nomeEmFrase(c.nome_urna))!, { exact: true })).toBeVisible();

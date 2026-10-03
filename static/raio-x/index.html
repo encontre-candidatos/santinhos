@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#cdc4b1">
+<title>Raio-X da Reeleição MG</title>
+<meta name="description" content="Como votaram na Câmara os 48 deputados federais de MG que tentam a reeleição: Blindagem, fim da 6x1, PL da Devastação, Reforma tributária, presença e patrimônio.">
+<meta property="og:title" content="Raio-X da Reeleição MG">
+<meta property="og:description" content="Como votaram na Câmara os 48 deputados federais de MG que tentam a reeleição: Blindagem, fim da 6x1, PL da Devastação, Reforma tributária, presença e patrimônio.">
+<meta property="og:type" content="website">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Big Shoulders Display';font-style:normal;font-weight:600;font-display:swap;src:url(fontes/big-shoulders-display-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Big Shoulders Display';font-style:normal;font-weight:800;font-display:swap;src:url(fontes/big-shoulders-display-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'Big Shoulders Display';font-style:normal;font-weight:900;font-display:swap;src:url(fontes/big-shoulders-display-latin-900-normal.woff2) format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:400;font-display:swap;src:url(fontes/public-sans-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:600;font-display:swap;src:url(fontes/public-sans-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Public Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fontes/public-sans-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(fontes/jetbrains-mono-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(fontes/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
+body{margin:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+</style>
+</head>
+<body>
+<style>
+/* Identidade "Santinho & Urna" do encontre-candidatos: mesa ao fundo, painel de urna no topo, uma coluna de santinhos de papel. */
+:root{
+  --mesa:#dde2da; --fg:#16181a; --muted:#454c48; --linha:#b9c0b6;
+  --papel:#fffefa; --tinta:#16181a; --tinta-2:#555b57;
+  --urna:#cdc4b1; --urna-borda:#a89f8b; --visor:#e7ebe1;
+  --tecla:#1b1b1b; --tecla-tx:#fafafa; --corrige:#ea7a32; --confirma:#4cae5c;
+  --carimbo:#b3261e; --carimbo-tx:#fffefa; --favor:#1d6b3a; --favor-fundo:#e3f0e6;
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --texto:'Public Sans','Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono',Consolas,'Courier New',monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --mesa:#1b201e; --fg:#e6eae4; --muted:#a7b0aa; --linha:#39413c; --papel:#efede5;
+  --urna:#3b372f; --urna-borda:#57503f; --visor:#d9ddd2; --carimbo:#c2332a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --mesa:#1b201e; --fg:#e6eae4; --muted:#a7b0aa; --linha:#39413c; --papel:#efede5;
+  --urna:#3b372f; --urna-borda:#57503f; --visor:#d9ddd2; --carimbo:#c2332a; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--mesa);color:var(--fg);font-family:var(--texto);font-size:15px;line-height:1.5;padding-inline:16px;padding-block:16px 40px}
+.wrap{max-width:560px;margin:0 auto}
+:focus-visible{outline:3px solid var(--corrige);outline-offset:2px}
+
+.urna{background:var(--urna);border:2px solid var(--urna-borda);padding:18px 16px 16px;box-shadow:0 1px 0 var(--urna-borda),0 10px 0 -4px var(--urna-borda);margin-bottom:24px}
+.marca{font:900 30px/.95 var(--display);text-transform:uppercase;letter-spacing:.01em;color:var(--fg);margin:0;text-wrap:balance}
+.marca small{display:block;font:500 11px var(--mono);letter-spacing:.14em;color:var(--muted);margin-top:6px}
+.lede{margin:12px 0 0;color:var(--fg);max-width:60ch}
+.visor{background:var(--visor);color:var(--tinta);border:3px solid var(--tecla);margin:14px 0;padding:10px 12px;font-family:var(--mono)}
+.visor .rot{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tinta-2)}
+.visor .cont{font:800 44px/1 var(--display);font-variant-numeric:tabular-nums}
+.visor .cont span{font-size:20px;font-weight:600;color:var(--tinta-2)}
+.visor .nota{font:700 12px/1.35 var(--texto);margin-top:6px;border-left:5px solid var(--tinta);padding-left:6px}
+.rot2{display:block;font:500 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.teclas{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tecla{appearance:none;border:0;border-radius:4px;background:var(--tecla);color:var(--tecla-tx);font:800 18px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;padding:10px 4px 8px;min-height:52px;cursor:pointer;box-shadow:0 3px 0 #000}
+.tecla small{display:block;font:500 10px var(--mono);letter-spacing:.02em;text-transform:none;opacity:.85;margin-top:4px}
+.tecla[aria-selected="true"]{background:var(--confirma);color:#111;box-shadow:0 3px 0 #2d6b37}
+#busca{width:100%;font:600 16px var(--texto);padding:10px 12px;border:2px solid var(--tecla);border-radius:0;background:var(--visor);color:var(--tinta);margin-top:12px;min-height:44px}
+.legenda{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.leg{font:700 12px/1 var(--texto);padding:6px 8px;border:2px solid}
+
+.list{display:grid;gap:22px}
+.santinho{background:var(--papel);color:var(--tinta);box-shadow:3px 4px 0 rgba(0,0,0,.18);transform:rotate(var(--r,0deg));transition:transform .18s ease}
+.faixa{height:8px;background:var(--cor)}
+.foto{aspect-ratio:4/3.6;max-width:100%;overflow:hidden;background:radial-gradient(circle,rgba(0,0,0,.2) 1.1px,transparent 1.3px) 0 0/6px 6px,color-mix(in srgb,var(--cor) 45%,#fff)}
+.foto img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.corpo{padding:12px 14px 14px;display:grid;gap:10px}
+.topo{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.topo > div:first-child{min-width:0}
+.papel{margin:0;font:700 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--tinta-2)}
+.nome{font:900 30px/.92 var(--display);text-transform:uppercase;text-wrap:balance;margin:2px 0 0}
+.alertas{flex:none;text-align:center;border:2px solid var(--tinta);padding:4px 8px 5px;min-width:64px}
+.alertas b{display:block;font:800 30px/1 var(--display);font-variant-numeric:tabular-nums}
+.alertas small{display:block;font:500 9.5px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.alertas.tem{background:var(--carimbo);border-color:var(--carimbo);color:var(--carimbo-tx)}
+.alertas.zero{background:var(--favor-fundo);border-color:var(--favor);color:var(--favor)}
+.num{display:flex;align-items:flex-end;gap:10px}
+.num .rot{font:500 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-2);writing-mode:vertical-rl;transform:rotate(180deg)}
+.digitos{display:flex;gap:4px}
+.digitos i{font-style:normal;font:800 40px/1 var(--display);width:34px;height:48px;display:grid;place-items:center;border:2px solid var(--tinta);font-variant-numeric:tabular-nums}
+.extrato{margin:0;display:grid}
+.extrato div{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:7px 0 2px;border-top:1.5px dotted var(--tinta-2)}
+.extrato dt{flex:1 1 0;min-width:0;font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--tinta-2)}
+.extrato dd{flex:none;margin:0;font:800 24px/1 var(--display);white-space:nowrap;font-variant-numeric:tabular-nums}
+.extrato dd.alerta{color:var(--carimbo)}
+.selos{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.selo{display:flex;align-items:center;gap:8px;padding:5px 8px;border:2px solid;width:100%;margin:0;font:inherit;text-align:left;cursor:pointer;min-height:44px}
+.selo:hover{filter:brightness(1.06)}
+.selo:focus-visible{outline:3px solid var(--corrige);outline-offset:2px}
+.selo .ic{flex:none;width:26px;height:26px;display:grid;place-items:center;font:900 18px/1 var(--display)}
+.selo .txt{flex:1;min-width:0}
+.selo small{display:block;font:600 11px/1.15 var(--texto)}
+.selo b{display:block;font:800 19px/.95 var(--display);letter-spacing:.02em;text-transform:uppercase}
+.verde{background:var(--favor-fundo);border-color:var(--favor);color:var(--favor)}
+.verde .ic{background:var(--favor);color:var(--favor-fundo)}
+.vermelho{background:var(--carimbo);border-color:var(--carimbo);color:var(--carimbo-tx)}
+.vermelho .ic{background:var(--carimbo-tx);color:var(--carimbo)}
+.cinza{background:var(--papel);border-style:dashed;border-color:var(--tinta-2);color:var(--tinta-2)}
+.cinza .ic{border:1.5px solid var(--tinta-2)}
+.selo .q{flex:none;border:1.5px solid currentColor;border-radius:50%;width:20px;height:20px;font:700 11px/1 var(--mono);display:grid;place-items:center}
+dialog.janela{border:2px solid var(--tinta);background:var(--papel);color:var(--tinta);padding:0;width:min(92vw,440px);box-shadow:4px 5px 0 rgba(0,0,0,.28)}
+dialog.janela::backdrop{background:rgba(0,0,0,.45)}
+.janela .in{padding:16px;display:grid;gap:10px}
+.janela h4{margin:0;font:900 24px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.janela p{margin:0;line-height:1.5}
+.janela .regra{font:700 13px/1.3 var(--texto);border-left:5px solid var(--carimbo);padding-left:8px}
+.janela button{justify-self:stretch;min-height:44px;font:700 14px var(--texto);color:var(--papel);background:var(--tinta);border:0;cursor:pointer}
+.acoes{border-top:1.5px dashed var(--tinta-2);padding-top:10px}
+.acoes a{display:flex;justify-content:center;align-items:center;min-height:44px;font:700 14px var(--texto);color:var(--papel);background:var(--tinta);text-decoration:none}
+.vazio{color:var(--muted);text-align:center;padding:24px;font-weight:700}
+
+details.box{background:var(--papel);color:var(--tinta);margin-top:24px;box-shadow:3px 4px 0 rgba(0,0,0,.18)}
+details.box summary{cursor:pointer;padding:14px;font:900 22px/1 var(--display);text-transform:uppercase;min-height:44px}
+details.box .in{padding:0 14px 14px;display:grid;gap:12px}
+details.box h3{margin:0;font:800 18px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+details.box p{margin:.2rem 0 0;color:var(--tinta-2)}
+footer{color:var(--muted);font:500 11px/1.5 var(--mono);margin-top:20px}
+@media (prefers-reduced-motion: reduce){.santinho{transform:none;transition:none}}
+</style>
+
+<div class="wrap">
+  <section class="urna" aria-label="Painel">
+    <h1 class="marca">Santinhos MG 2026<small>Deputado federal · quem tenta a reeleição</small></h1>
+    <span class="rot2">Grupo</span>
+    <div class="teclas" role="tablist" aria-label="Grupos">
+      <button class="tecla" role="tab" id="t-Centro" data-g="Centro" aria-selected="true">Centro<small></small></button>
+      <button class="tecla" role="tab" id="t-Esquerda" data-g="Esquerda" aria-selected="false">Esquerda<small></small></button>
+      <button class="tecla" role="tab" id="t-Direita" data-g="Direita" aria-selected="false">Direita<small></small></button>
+    </div>
+    <input id="busca" type="search" placeholder="Nome, partido ou número" aria-label="Buscar deputado" autocomplete="off">
+    <div class="legenda" aria-label="Legenda">
+      <span class="leg verde">✔ Votou bem</span>
+      <span class="leg vermelho">✖ Alerta</span>
+      <span class="leg cinza">– Faltou / não era deputado</span>
+    </div>
+  </section>
+<main class="list" id="lista"></main>
+
+  <details class="box" id="explica">
+    <summary>O que foi cada votação</summary>
+    <div class="in">
+      <div><h3>Alinhamento ao governo</h3><p>Em quantas votações o deputado votou igual ao que o governo Lula orientou (Sim ou Não), de 2025 a setembro de 2026.</p></div>
+      <div><h3>Presença</h3><p>Em quantas votações de 2026 o deputado apareceu para votar. Abaixo de 75% vira alerta.</p></div>
+      <div><h3>PEC da Blindagem</h3><p>Mudava a Constituição para que deputados e senadores só pudessem ser processados com autorização do próprio Congresso, em votação secreta. Dificultava investigar e punir parlamentares. A Câmara aprovou e o Senado rejeitou. Votar Sim é alerta.</p></div>
+      <div><h3>Fim da escala 6x1</h3><p>Mudança na Constituição que acaba com a jornada de 6 dias de trabalho para 1 de folga e reduz as horas semanais. Quem assinou as Emendas 1 e 2, que abriam exceções para manter até 44 horas por semana, ou votou contra, recebe alerta.</p></div>
+      <div><h3>PL da Devastação</h3><p>Nova lei do licenciamento ambiental. Afrouxa as regras para liberar obras que podem causar dano ambiental, permitindo em muitos casos que a própria empresa declare que cumpre as regras, sem análise prévia de um órgão ambiental. Votar Sim é alerta.</p></div>
+      <div><h3>Reforma tributária</h3><p>Troca cinco impostos sobre o consumo (PIS, Cofins, IPI, ICMS e ISS) por dois novos (CBS e IBS), com regras iguais em todo o país, para simplificar a cobrança. Votar Não é alerta.</p></div>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>Como os grupos foram montados</summary>
+    <div class="in">
+      <p><b>Esquerda:</b> PT, PCdoB e PV (Federação Brasil da Esperança), PSOL e REDE.<br><b>Centro:</b> outros partidos, com 70% ou mais de alinhamento ao governo.<br><b>Direita:</b> outros partidos, com menos de 70%.</p>
+      <p>Dentro de cada grupo, a lista começa por quem tem menos alertas; no empate, vem primeiro quem mais votou com o governo.</p>
+    </div>
+  </details>
+
+  <footer>
+    <p>Fontes: votações nominais do Plenário (API Dados Abertos da Câmara dos Deputados) e bens declarados ao TSE. Patrimônio em valores nominais. Mandatos contam a legislatura atual e suplências exercidas. Atualizado em 03/10/2026.</p>
+  </footer>
+</div>
+
+<dialog class="janela" id="janela" aria-labelledby="j-tit">
+  <div class="in">
+    <h4 id="j-tit"></h4>
+    <p id="j-txt"></p>
+    <p class="regra" id="j-regra"></p>
+    <button type="button" id="j-fechar">Fechar</button>
+  </div>
+</dialog>
+
+<script>
+const DADOS = {"Centro": [{"nome": "Igor Timo", "alertas": 1, "quais": "Blindagem", "partido": "UNIÃO", "num": "4455", "alin": 0.85, "pres": 0.8617886178861789, "b1": "Ausente", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 240920, "pat22": 3154592.97, "mand": 2, "link": "../?n=4455", "foto": "../fotos/204508.jpg"}, {"nome": "Zé Silva", "alertas": 1, "quais": "6x1", "partido": "UNIÃO", "num": "4477", "alin": 0.847, "pres": 0.8048780487804879, "b1": "Ausente", "b2": "Ausente", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Ausente", "rt": "Sim / Sim", "pat": 599363.56, "pat22": 400000, "mand": 4, "link": "../?n=4477", "foto": "../fotos/160632.jpg"}, {"nome": "Weliton Prado", "alertas": 1, "quais": "Presença", "partido": "PSD", "num": "5510", "alin": 0.818, "pres": 0.6829268292682927, "b1": "Ausente", "b2": "Não", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 2626888.05, "pat22": 2212314.96, "mand": 4, "link": "../?n=5510", "foto": "../fotos/160518.jpg"}, {"nome": "Rodrigo de Castro", "alertas": 1, "quais": "Blindagem", "partido": "UNIÃO", "num": "4450", "alin": 0.795, "pres": 0.926829268292683, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 2594116.31, "pat22": 2402596.42, "mand": 5, "link": "../?n=4450", "foto": "../fotos/141531.jpg"}, {"nome": "Pedro Aihara", "alertas": 1, "quais": "Blindagem", "partido": "PP", "num": "1193", "alin": 0.7290000000000001, "pres": 0.9809523809523809, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Não", "rt": "Sim / Sim", "pat": 2664019.15, "pat22": 930194.01, "mand": 1, "link": "../?n=1193", "foto": "../fotos/220630.jpg"}, {"nome": "Mário Heringer", "alertas": 2, "quais": "Blindagem, Presença", "partido": "PDT", "num": "1234", "alin": 0.8759999999999999, "pres": 0.6910569105691057, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 6833295.9, "pat22": 10335687.72, "mand": 6, "link": "../?n=1234", "foto": "../fotos/74158.jpg"}, {"nome": "Nely Aquino", "alertas": 2, "quais": "Blindagem, Devastação", "partido": "PODE", "num": "2020", "alin": 0.865, "pres": 0.9436619718309859, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Sim", "rt": "Sim / Sim", "pat": 1611165.37, "pat22": 439692.38, "mand": 1, "link": "../?n=2020", "foto": "../fotos/220622.jpg"}, {"nome": "Fred Costa", "alertas": 2, "quais": "Blindagem, Presença", "partido": "PRD", "num": "2533", "alin": 0.856, "pres": 0.6016260162601627, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 5880081.37, "pat22": 4453760.51, "mand": 2, "link": "../?n=2533", "foto": "../fotos/204494.jpg"}, {"nome": "Luis Tibé", "alertas": 2, "quais": "Blindagem, Presença", "partido": "AVANTE", "num": "7070", "alin": 0.853, "pres": 0.582089552238806, "b1": "Sim", "b2": "Sim", "s6": "Não era deputado na votação", "dv": "Ausente", "rt": "Sim / Sim", "pat": 3872813.69, "pat22": 3081969.28, "mand": 4, "link": "../?n=7070", "foto": "../fotos/160510.jpg"}, {"nome": "Luiz Fernando", "alertas": 2, "quais": "Blindagem, 6x1", "partido": "UNIÃO", "num": "4400", "alin": 0.7929999999999999, "pres": 0.9024390243902439, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Ausente", "rt": "Sim / Sim", "pat": 3019935.04, "pat22": 2756874.93, "mand": 4, "link": "../?n=4400", "foto": "../fotos/141487.jpg"}, {"nome": "Paulo Abi-Ackel", "alertas": 2, "quais": "Blindagem, Presença", "partido": "PSDB", "num": "4545", "alin": 0.778, "pres": 0.7073170731707317, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 20093322.56, "pat22": 4736332.49, "mand": 5, "link": "../?n=4545", "foto": "../fotos/141516.jpg"}, {"nome": "Samuel Viana", "alertas": 2, "quais": "Blindagem, Devastação", "partido": "UNIÃO", "num": "4433", "alin": 0.754, "pres": 0.8292682926829268, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Sim", "rt": "Sim / Sim", "pat": 5786939, "pat22": 289873.04, "mand": 1, "link": "../?n=4433", "foto": "../fotos/220631.jpg"}, {"nome": "Dimas Fabiano", "alertas": 2, "quais": "Blindagem, Devastação", "partido": "PP", "num": "1111", "alin": 0.745, "pres": 0.8861788617886179, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Sim", "rt": "Sim / Sim", "pat": 743091.36, "pat22": 747777.88, "mand": 4, "link": "../?n=1111", "foto": "../fotos/160599.jpg"}, {"nome": "Diego Andrade", "alertas": 3, "quais": "Blindagem, 6x1, Presença", "partido": "PSD", "num": "5555", "alin": 0.77, "pres": 0.5853658536585366, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2 e faltou na votação final", "dv": "Ausente", "rt": "Sim / Sim", "pat": 1232684.86, "pat22": 1116960, "mand": 4, "link": "../?n=5555", "foto": "../fotos/160588.jpg"}, {"nome": "Bruno Farias", "alertas": 3, "quais": "Blindagem, Devastação, Presença", "partido": "REPUBLICANOS", "num": "1077", "alin": 0.748, "pres": 0.6422764227642277, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Sim", "rt": "Sim / Sim", "pat": 1567741.45, "pat22": 804739.83, "mand": 1, "link": "../?n=1077", "foto": "../fotos/210989.jpg"}, {"nome": "Stefano Aguiar", "alertas": 3, "quais": "Blindagem, Reforma, Presença", "partido": "PSD", "num": "5544", "alin": 0.7340000000000001, "pres": 0.7479674796747967, "b1": "Sim", "b2": "Ausente", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Não / Ausente", "pat": 4342200, "pat22": 3258208.87, "mand": 4, "link": "../?n=5544", "foto": "../fotos/92776.jpg"}, {"nome": "Newton Cardoso Jr", "alertas": 3, "quais": "Blindagem, 6x1, Presença", "partido": "MDB", "num": "1510", "alin": 0.7140000000000001, "pres": 0.4065040650406504, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2 e faltou na votação final", "dv": "Ausente", "rt": "Sim / Sim", "pat": 8086320.28, "pat22": 2029907.21, "mand": 3, "link": "../?n=1510", "foto": "../fotos/178896.jpg"}, {"nome": "Gilberto Abramo", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Presença", "partido": "REPUBLICANOS", "num": "1010", "alin": 0.747, "pres": 0.6016260162601627, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Sim / Sim", "pat": 247263.05, "pat22": 159110, "mand": 2, "link": "../?n=1010", "foto": "../fotos/204491.jpg"}, {"nome": "Euclydes Pettersen", "alertas": 4, "quais": "Blindagem, Devastação, Reforma, Presença", "partido": "REPUBLICANOS", "num": "1015", "alin": 0.7290000000000001, "pres": 0.7164179104477612, "b1": "Sim", "b2": "Sim", "s6": "Não era deputado na votação", "dv": "Sim", "rt": "Não / Ausente", "pat": 6844408.44, "pat22": 5278028.08, "mand": 2, "link": "../?n=1015", "foto": "../fotos/204482.jpg"}], "Esquerda": [{"nome": "Padre João", "alertas": 0, "quais": "—", "partido": "PT", "num": "1315", "alin": 0.988, "pres": 0.9512195121951219, "b1": "Não", "b2": "Não", "s6": "Não – votou a favor", "dv": "Não", "rt": "Sim / Sim", "pat": 629191.29, "pat22": 165134.66, "mand": 4, "link": "../?n=1315", "foto": "../fotos/160556.jpg"}, {"nome": "Rogério Correia", "alertas": 0, "quais": "—", "partido": "PT", "num": "1313", "alin": 0.987, "pres": 0.8617886178861789, "b1": "Não", "b2": "Não", "s6": "Não – votou a favor", "dv": "Não", "rt": "Sim / Sim", "pat": 1107794.07, "pat22": 717582, "mand": 2, "link": "../?n=1313", "foto": "../fotos/204480.jpg"}, {"nome": "Miguel Ângelo", "alertas": 0, "quais": "—", "partido": "PT", "num": "1339", "alin": 0.985, "pres": 0.7804878048780488, "b1": "Ausente", "b2": "Não", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 374802.5, "pat22": 0, "mand": 1, "link": "../?n=1339", "foto": "../fotos/171786.jpg"}, {"nome": "André Janones", "alertas": 0, "quais": "—", "partido": "REDE", "num": "1813", "alin": 0.98, "pres": 0.975609756097561, "b1": "Ausente", "b2": "Ausente", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 191728.66, "pat22": 293787.09, "mand": 2, "link": "../?n=1813", "foto": "../fotos/204515.jpg"}, {"nome": "Ana Pimentel", "alertas": 0, "quais": "—", "partido": "PT", "num": "1314", "alin": 0.9790000000000001, "pres": 0.9105691056910569, "b1": "Não", "b2": "Não", "s6": "Não – votou a favor", "dv": "Não", "rt": "Sim / Sim", "pat": 263963.15, "pat22": 442438.43, "mand": 1, "link": "../?n=1314", "foto": "../fotos/220632.jpg"}, {"nome": "Duda Salabert", "alertas": 0, "quais": "—", "partido": "PSOL", "num": "5050", "alin": 0.9390000000000001, "pres": 0.9186991869918699, "b1": "Não", "b2": "Não", "s6": "Não – votou a favor", "dv": "Não", "rt": "Ausente / Ausente", "pat": 30000, "pat22": 26709.4, "mand": 1, "link": "../?n=5050", "foto": "../fotos/220623.jpg"}, {"nome": "Célia Xakriabá", "alertas": 0, "quais": "—", "partido": "PSOL", "num": "5088", "alin": 0.872, "pres": 0.9024390243902439, "b1": "Não", "b2": "Não", "s6": "Não – votou a favor", "dv": "Não", "rt": "Sim / Sim", "pat": 49000, "pat22": 42153.75, "mand": 1, "link": "../?n=5088", "foto": "../fotos/206018.jpg"}, {"nome": "Gilmar Machado", "alertas": 0, "quais": "—", "partido": "PT", "num": "1350", "alin": null, "pres": null, "b1": "Ausente", "b2": "Ausente", "s6": "Não era deputado na votação", "dv": "Ausente", "rt": "Ausente / Ausente", "pat": 582232.54, "pat22": 374740, "mand": 5, "link": "../?n=1350", "foto": "../fotos/74581.jpg"}, {"nome": "Dandara", "alertas": 1, "quais": "Presença", "partido": "PT", "num": "1334", "alin": 0.9890000000000001, "pres": 0.5447154471544715, "b1": "Não", "b2": "Ausente", "s6": "Não – votou a favor", "dv": "Não", "rt": "Sim / Sim", "pat": 291812.11, "pat22": 103921.49, "mand": 1, "link": "../?n=1334", "foto": "../fotos/220629.jpg"}, {"nome": "Paulo Guedes", "alertas": 1, "quais": "Blindagem", "partido": "PT", "num": "1378", "alin": 0.981, "pres": 0.9512195121951219, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Não", "rt": "Sim / Sim", "pat": 2458251.42, "pat22": 1918966.97, "mand": 2, "link": "../?n=1378", "foto": "../fotos/204492.jpg"}, {"nome": "Reginaldo Lopes", "alertas": 1, "quais": "Presença", "partido": "PT", "num": "1312", "alin": 0.976, "pres": 0.5609756097560976, "b1": "Não", "b2": "Não", "s6": "Não – votou a favor", "dv": "Não", "rt": "Sim / Sim", "pat": 861582, "pat22": 654782, "mand": 6, "link": "../?n=1312", "foto": "../fotos/74161.jpg"}, {"nome": "Leonardo Monteiro", "alertas": 1, "quais": "Blindagem", "partido": "PT", "num": "1363", "alin": 0.9620000000000001, "pres": 0.8943089430894309, "b1": "Sim", "b2": "Não", "s6": "Não – votou a favor", "dv": "Ausente", "rt": "Sim / Sim", "pat": 833552.97, "pat22": 339000, "mand": 6, "link": "../?n=1363", "foto": "../fotos/74156.jpg"}], "Direita": [{"nome": "Delegado Marcelo Freitas", "alertas": 2, "quais": "Blindagem, Devastação", "partido": "UNIÃO", "num": "4444", "alin": 0.69, "pres": 0.9349593495934959, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Sim", "rt": "Sim / Sim", "pat": 1269430.65, "pat22": 486675.25, "mand": 2, "link": "../?n=4444", "foto": "../fotos/204512.jpg"}, {"nome": "Delegada Ione", "alertas": 2, "quais": "Blindagem, Reforma", "partido": "PL", "num": "2232", "alin": 0.59, "pres": 0.926829268292683, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Não", "rt": "Não / Não", "pat": 2432268.72, "pat22": 2706637, "mand": 1, "link": "../?n=2232", "foto": "../fotos/220625.jpg"}, {"nome": "Lafayette Andrada", "alertas": 3, "quais": "Blindagem, 6x1, Presença", "partido": "PL", "num": "2250", "alin": 0.636, "pres": 0.5040650406504065, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Ausente", "rt": "Sim / Ausente", "pat": 643228.56, "pat22": 461634.8, "mand": 2, "link": "../?n=2250", "foto": "../fotos/98057.jpg"}, {"nome": "Rafael Simões", "alertas": 3, "quais": "Blindagem, 6x1, Devastação", "partido": "UNIÃO", "num": "4445", "alin": 0.581, "pres": 0.8292682926829268, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Sim / Sim", "pat": 6476601.21, "pat22": 3457561.4, "mand": 1, "link": "../?n=4445", "foto": "../fotos/220626.jpg"}, {"nome": "Rosangela Reis", "alertas": 3, "quais": "Blindagem, 6x1, Devastação", "partido": "PL", "num": "2215", "alin": 0.27, "pres": 0.8455284552845529, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Sim / Sim", "pat": 915008.59, "pat22": 1204238.47, "mand": 1, "link": "../?n=2215", "foto": "../fotos/220620.jpg"}, {"nome": "Emidinho Madeira", "alertas": 3, "quais": "Blindagem, Devastação, Reforma", "partido": "PL", "num": "2240", "alin": 0.26, "pres": 0.8617886178861789, "b1": "Sim", "b2": "Ausente", "s6": "Não – votou a favor", "dv": "Sim", "rt": "Não / Não", "pat": 714357.99, "pat22": 384063.96, "mand": 2, "link": "../?n=2240", "foto": "../fotos/161550.jpg"}, {"nome": "Eros Biondini", "alertas": 3, "quais": "Blindagem, Devastação, Reforma", "partido": "PL", "num": "2277", "alin": 0.221, "pres": 0.8943089430894309, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Sim", "rt": "Não / Não", "pat": 2267130.04, "pat22": 1407623.65, "mand": 4, "link": "../?n=2277", "foto": "../fotos/160640.jpg"}, {"nome": "Dr. Frederico", "alertas": 3, "quais": "Blindagem, Devastação, Reforma", "partido": "PL", "num": "2252", "alin": 0.192, "pres": 0.8373983739837398, "b1": "Sim", "b2": "Sim", "s6": "Não – votou a favor", "dv": "Sim", "rt": "Não / Não", "pat": 897347.71, "pat22": 1626314.54, "mand": 2, "link": "../?n=2252", "foto": "../fotos/204518.jpg"}, {"nome": "Pinheirinho", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Presença", "partido": "PP", "num": "1122", "alin": 0.417, "pres": 0.1544715447154472, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 2", "dv": "Sim", "rt": "Sim / Sim", "pat": 979822.81, "pat22": 594221.51, "mand": 2, "link": "../?n=1122", "foto": "../fotos/204524.jpg"}, {"nome": "Ana Paula Leão", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Reforma", "partido": "PP", "num": "1199", "alin": 0.398, "pres": 0.7723577235772358, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Não / Não", "pat": 188960.83, "pat22": 62632.29, "mand": 1, "link": "../?n=1199", "foto": "../fotos/107970.jpg"}, {"nome": "Greyce Elias", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Presença", "partido": "PL", "num": "2270", "alin": 0.327, "pres": 0.6991869918699187, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Sim / Sim", "pat": 2112478.2, "pat22": 1690398.48, "mand": 2, "link": "../?n=2270", "foto": "../fotos/198197.jpg"}, {"nome": "Zé Vitor", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Presença", "partido": "PL", "num": "2200", "alin": 0.293, "pres": 0.3170731707317073, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Sim / Sim", "pat": 1076000, "pat22": 816000, "mand": 2, "link": "../?n=2200", "foto": "../fotos/204517.jpg"}, {"nome": "Marcelo Álvaro Antônio", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Reforma", "partido": "PL", "num": "2244", "alin": 0.277, "pres": 0.7804878048780488, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Não / Não", "pat": 2475900, "pat22": 1196659.6, "mand": 3, "link": "../?n=2244", "foto": "../fotos/179000.jpg"}, {"nome": "Lincoln Portela", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Reforma", "partido": "PL", "num": "2233", "alin": 0.234, "pres": 0.8292682926829268, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Não / Não", "pat": 607500, "pat22": 1638089.42, "mand": 7, "link": "../?n=2233", "foto": "../fotos/74585.jpg"}, {"nome": "Maurício do Vôlei", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Reforma", "partido": "PL", "num": "2210", "alin": 0.213, "pres": 0.9349593495934959, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Não / Ausente", "pat": 1757000, "pat22": 305000, "mand": 1, "link": "../?n=2210", "foto": "../fotos/220628.jpg"}, {"nome": "Nikolas Ferreira", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Reforma", "partido": "PL", "num": "2222", "alin": 0.174, "pres": 0.926829268292683, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Não / Não", "pat": 3898456.67, "pat22": 36820.46, "mand": 1, "link": "../?n=2222", "foto": "../fotos/209787.jpg"}, {"nome": "Junio Amaral", "alertas": 4, "quais": "Blindagem, 6x1, Devastação, Reforma", "partido": "PL", "num": "2299", "alin": 0.155, "pres": 0.9186991869918699, "b1": "Sim", "b2": "Sim", "s6": "SIM – assinou emenda(s) 1 e 2", "dv": "Sim", "rt": "Não / Não", "pat": 903000, "pat22": 581733, "mand": 2, "link": "../?n=2299", "foto": "../fotos/204520.jpg"}]};
+const NOTAS = {
+  Centro: 'Partidos fora da esquerda que votaram com o governo em 70% ou mais das vezes.',
+  Esquerda: 'Federação Brasil da Esperança (PT, PCdoB, PV), PSOL e REDE. Voto em candidato da Federação soma para a Federação inteira.',
+  Direita: 'Partidos fora da esquerda que votaram com o governo em menos de 70% das vezes.'
+};
+const pct = v => v == null ? '—' : Math.round(v * 100) + '%';
+const brl = v => {
+  if (v == null) return '—';
+  if (v >= 1e6) return 'R$ ' + (v / 1e6).toLocaleString('pt-BR', {maximumFractionDigits: 1}) + (v < 2e6 ? ' milhão' : ' milhões');
+  return 'R$ ' + Math.round(v / 1e3).toLocaleString('pt-BR') + ' mil';
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sim = v => v === 'Sim', nao = v => v === 'Não';
+
+function linhas(d) {
+  const L = [];
+  const blind = sim(d.b1) || sim(d.b2) ? ['bad', 'Votou Sim'] : (nao(d.b1) || nao(d.b2)) ? ['ok', 'Votou Não'] : ['na', 'Faltou'];
+  L.push(['PEC da Blindagem', ...blind]);
+  let s6;
+  if (d.s6.startsWith('SIM')) s6 = ['bad', d.s6.includes('faltou') ? 'Enfraqueceu e faltou' : 'Enfraqueceu'];
+  else if (d.s6 === 'Votou contra') s6 = ['bad', 'Votou contra'];
+  else if (d.s6.startsWith('Não – votou')) s6 = ['ok', 'Votou a favor'];
+  else if (d.s6.includes('faltou')) s6 = ['na', 'Faltou'];
+  else s6 = ['na', 'Não era deputado'];
+  L.push(['Fim da escala 6x1', ...s6]);
+  L.push(['PL da Devastação', ...(sim(d.dv) ? ['bad', 'Votou Sim'] : nao(d.dv) ? ['ok', 'Votou Não'] : ['na', 'Faltou'])]);
+  const rt = d.rt.includes('Não') ? ['bad', 'Votou Não'] : d.rt === 'Sim / Sim' ? ['ok', 'Votou Sim'] : d.rt.includes('Sim') ? ['ok', 'Votou Sim (faltou 1 turno)'] : ['na', 'Faltou'];
+  L.push(['Reforma tributária', ...rt]);
+  return L;
+}
+
+const CORES = {AVANTE:'#e06a1b',MDB:'#2f8f4e',PDT:'#b3303a',PL:'#1f3f8f',PODE:'#3a9a45',PP:'#3b64a8',PRD:'#3e5a86',PSB:'#e8a33d',PSD:'#2d6db5',PSDB:'#2a5caa',PSOL:'#7b2d8e',PT:'#c4161c',PV:'#4f9d2d',REDE:'#1a8a86',REPUBLICANOS:'#0f6e9e','UNIÃO':'#1b75bb'};
+const EXPL = {
+  'PEC da Blindagem': ['Mudava a Constituição para que deputados e senadores só pudessem ser processados com autorização do próprio Congresso, em votação secreta. Dificultava investigar e punir parlamentares. A Câmara aprovou em 16/09/2025 e o Senado rejeitou.', 'Votar Sim é alerta.'],
+  'Fim da escala 6x1': ['Mudança na Constituição que acaba com a jornada de 6 dias de trabalho para 1 de folga e reduz as horas semanais. A Câmara votou em 27/05/2026. As Emendas 1 e 2 abriam exceções para manter até 44 horas por semana, o que enfraquecia a mudança.', 'Assinar essas emendas ou votar contra é alerta.'],
+  'PL da Devastação': ['Nova lei do licenciamento ambiental. Afrouxa as regras para liberar obras que podem causar dano ambiental, permitindo em muitos casos que a própria empresa declare que cumpre as regras, sem análise prévia de um órgão ambiental. Votação de 17/07/2025, de madrugada.', 'Votar Sim é alerta.'],
+  'Reforma tributária': ['Troca cinco impostos sobre o consumo (PIS, Cofins, IPI, ICMS e ISS) por dois novos (CBS e IBS), com regras iguais em todo o país, para simplificar a cobrança. Votada em dois turnos em julho de 2023.', 'Votar Não é alerta.']
+};
+const CLS ={ok: ['verde', '✔'], bad: ['vermelho', '✖'], na: ['cinza', '–']};
+function card(d, i) {
+  const presBad = d.pres != null && d.pres < 0.75;
+  const dig = d.num.split('').map(n => `<i>${n}</i>`).join('');
+  const al = d.alertas === 0
+    ? `<div class="alertas zero"><b>0</b><small>alertas</small></div>`
+    : `<div class="alertas tem"><b>${d.alertas}</b><small>${d.alertas === 1 ? 'alerta' : 'alertas'}</small></div>`;
+  const selos = linhas(d).map(([q, c, a]) =>
+    `<li><button type="button" class="selo ${CLS[c][0]}" data-q="${q}" aria-haspopup="dialog"><span class="ic" aria-hidden="true">${CLS[c][1]}</span><span class="txt"><small>${q}</small><b>${a}</b></span><span class="q" aria-hidden="true">?</span></button></li>`).join('');
+  const r = [-0.8, 0.6, -0.4, 0.9, -0.6, 0.3][i % 6];
+  return `<article class="santinho" style="--cor:${CORES[d.partido] || 'var(--tinta-2)'};--r:${r}deg" aria-label="${esc(d.nome)}">
+    <div class="faixa"></div>
+    <div class="foto"><img src="${esc(d.foto)}" alt="Foto de ${esc(d.nome)}" loading="lazy" width="320" height="288"></div>
+    <div class="corpo">
+      <div class="topo"><div><p class="papel">${esc(d.partido)} · Deputado federal</p><h2 class="nome">${esc(d.nome)}</h2></div>${al}</div>
+      <div class="num" aria-label="Número ${d.num}"><span class="rot">Número</span><div class="digitos">${dig}</div></div>
+      <dl class="extrato">
+        <div><dt>Votou com o governo</dt><dd>${pct(d.alin)}</dd></div>
+        <div><dt>Presença em 2026</dt><dd class="${presBad ? 'alerta' : ''}">${pct(d.pres)}</dd></div>
+        <div><dt>Patrimônio 2026 (em 2022: ${brl(d.pat22)})</dt><dd>${brl(d.pat)}</dd></div>
+        <div><dt>Mandatos de deputado federal</dt><dd>${d.mand}</dd></div>
+      </dl>
+      <ul class="selos">${selos}</ul>
+      <div class="acoes"><a href="${esc(d.link)}" target="_blank" rel="noopener">Ver santinho no site</a></div>
+    </div>
+  </article>`;
+}
+
+let grupo = 'Centro';
+const lista = document.getElementById('lista'), busca = document.getElementById('busca');
+const norm = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+function render() {
+  const q = norm(busca.value.trim());
+  let itens = DADOS[grupo];
+  if (q) itens = Object.values(DADOS).flat().filter(d => norm(d.nome + ' ' + d.partido + ' ' + d.num).includes(q));
+  lista.innerHTML = itens.length ? itens.map(card).join('') : '<p class="vazio">Ninguém encontrado. Tente o número de urna ou parte do nome.</p>';
+}
+document.querySelectorAll('.tecla').forEach(b => {
+  const g = b.dataset.g, n = DADOS[g].length, ok = DADOS[g].filter(d => d.alertas === 0).length;
+  b.querySelector('small').textContent = `${n} · ${ok} sem alerta`;
+  b.addEventListener('click', () => {
+    grupo = g; busca.value = '';
+    document.querySelectorAll('.tecla').forEach(x => x.setAttribute('aria-selected', String(x === b)));
+    try { history.replaceState(null, '', '#' + g.toLowerCase()); } catch (e) {}
+    render();
+  });
+});
+busca.addEventListener('input', render);
+const jan = document.getElementById('janela');
+lista.addEventListener('click', e => {
+  const b = e.target.closest('button.selo'); if (!b) return;
+  const [txt, regra] = EXPL[b.dataset.q];
+  document.getElementById('j-tit').textContent = b.dataset.q;
+  document.getElementById('j-txt').textContent = txt;
+  document.getElementById('j-regra').textContent = regra;
+  try { jan.showModal(); } catch (err) { jan.setAttribute('open', ''); }
+});
+document.getElementById('j-fechar').addEventListener('click', () => jan.close());
+jan.addEventListener('click', e => { if (e.target === jan) jan.close(); });
+const h = (location.hash || '').slice(1).toLowerCase();
+const inicial = Object.keys(DADOS).find(k => k.toLowerCase() === h);
+if (inicial) document.getElementById('t-' + inicial).click(); else render();
+</script>
+
+</body>
+</html>

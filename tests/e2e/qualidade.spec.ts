@@ -7,11 +7,13 @@ import {
   busca,
   candidatos,
   casam,
+  deputados,
   marcados,
   santinhos,
   semCompartilhar,
   tabAte,
-  teclaLimpar
+  teclaLimpar,
+  verTodos
 } from './apoio';
 
 test.describe('NFR-003: 360 px sem rolagem horizontal', () => {
@@ -160,6 +162,8 @@ test('SC-001 (proxy): lista inteira visível em menos de 3 s no celular', async 
   const t0 = Date.now();
   await page.goto('/');
   await expect(santinhos(page).first()).toBeVisible();
-  await expect(santinhos(page)).toHaveCount(candidatos.length);
+  await expect(santinhos(page)).toHaveCount(deputados.length);
+  // A lista inteira de antes (221) fica a um toque, em "Todos os candidatos" (WP17).
+  await verTodos(page);
   expect(Date.now() - t0).toBeLessThan(3000);
 });

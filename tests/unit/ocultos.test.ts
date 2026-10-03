@@ -1,7 +1,7 @@
 // Ocultos e busca por número (WP13/T063; FR-036, FR-037, FR-040, C-015), com candidatos fictícios.
 import { describe, expect, it } from 'vitest';
 import type { Candidato, EstadoFiltro } from '$lib/tipos';
-import { contagens, visiveis } from '$lib/regras/filtros';
+import { contagens, numeroForaDaReeleicao, visiveis } from '$lib/regras/filtros';
 import { buscaNumero, oculto, transparente } from '$lib/regras/ocultos';
 import dados from '../fixtures/candidatos-ficticios.json';
 
@@ -33,7 +33,7 @@ const oculto1 = naoDeputado('Zé da Padaria', '1234', 'PT', []);
 const oculto2 = naoDeputado('Nina Estrela', '1299', 'PT', []);
 const todos = [...deputados, prefeita, oculto1, oculto2];
 const SIGLAS = ['PL', 'PRTB'];
-const inicio: EstadoFiltro = { busca: '', partido: null, mostrarOcultos: false, esconder: [] };
+const inicio: EstadoFiltro = { universo: 'todos', busca: '', partido: null, mostrarOcultos: false, esconder: [] };
 const nomes = (l: readonly Candidato[]) => l.map((c) => c.nome_urna);
 
 describe('oculto', () => {
@@ -112,5 +112,42 @@ describe('contagens com ocultos (FR-040)', () => {
 
   it('botão ligado: nenhum oculto na busca', () => {
     expect(contagens(todos, SIGLAS, { ...inicio, mostrarOcultos: true })).toMatchObject({ exibidos: todos.length, ocultos: 2, ocultosNaBusca: 0, escondidosPorMarca: 0 });
+  });
+});
+
+describe('opção do topo: Reeleição ou Todos (WP17; FR-065, FR-067, FR-068)', () => {
+  const reeleicao: EstadoFiltro = { ...inicio, universo: 'reeleicao' };
+
+  it('"Reeleição" mostra só quem tenta a reeleição, na ordem da entrada', () => {
+    expect(nomes(visiveis(todos, reeleicao))).toEqual(nomes(deputados));
+    expect(visiveis(todos, { ...reeleicao, mostrarOcultos: true })).toHaveLength(deputados.length);
+  });
+
+  it('contagem da opção ativa: total e ocultos de "Reeleição"', () => {
+    expect(contagens(todos, SIGLAS, reeleicao)).toMatchObject({ total: deputados.length, exibidos: deputados.length, ocultos: 0, ocultosNaBusca: 0 });
+    expect(contagens(todos, SIGLAS, inicio).total).toBe(todos.length);
+  });
+
+  it('busca e partido valem sobre os da reeleição', () => {
+    const p = deputados[0].partido;
+    expect(visiveis(todos, { ...reeleicao, partido: p }).every((c) => c.reeleicao && c.partido === p)).toBe(true);
+    expect(visiveis(todos, { ...reeleicao, busca: '4021' })).toHaveLength(0);
+  });
+
+  it('número completo de quem não tenta a reeleição: só em "Reeleição"', () => {
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: '4021' })).toBe(true);
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: '1234' })).toBe(true);
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: '40' })).toBe(false);
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: deputados[0].numero_urna })).toBe(false);
+    expect(numeroForaDaReeleicao(todos, { ...inicio, busca: '4021' })).toBe(false);
+  });
+
+  it('o aviso respeita partido e chaves de marca: o botão nunca leva a uma mesa vazia', () => {
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: '4021', partido: 'PSD' })).toBe(true);
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: '4021', partido: 'PT' })).toBe(false);
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: '1234', partido: 'PT' })).toBe(true);
+    const psdMarcado = { siglasMarcadas: ['PSD'] };
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: '4021' }, psdMarcado)).toBe(true);
+    expect(numeroForaDaReeleicao(todos, { ...reeleicao, busca: '4021', esconder: ['extrema-direita'] }, psdMarcado)).toBe(false);
   });
 });

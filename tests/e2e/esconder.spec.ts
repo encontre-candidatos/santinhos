@@ -2,7 +2,7 @@
 // dados reais; C-020 (nada guardado nem transmitido), NFR-030 a NFR-032.
 import { expect, test, type Page } from '@playwright/test';
 import { MARCAS, temAlguma } from '../../src/lib/marcas';
-import { abrir, abrirMaisFiltros, busca, candidatos, santinho, santinhos, semCompartilhar, siglasMarcadas, tabAte, todos } from './apoio';
+import { abrir, abrirMaisFiltros, busca, candidatos, santinho, santinhos, semCompartilhar, siglasMarcadas, tabAte, todos, verTodos } from './apoio';
 
 const ctx = { siglasMarcadas };
 const bloco = (page: Page) => page.getByRole('group', { name: 'Esconder quem tem' });
@@ -81,7 +81,7 @@ test.describe('C-020: nada guardado nem transmitido', () => {
     await page.reload();
     await abrirMaisFiltros(page);
     for (const m of MARCAS) await expect(chave(page, m.rotulo)).toHaveAttribute('aria-pressed', 'false');
-    await expect(santinhos(page)).toHaveCount(candidatos.length);
+    await verTodos(page);
   });
 });
 

@@ -1,7 +1,7 @@
 // Cenário 13 (WP15/T074): mesa em ordem sorteada a cada abertura, estável sob filtro; FR-061 e SC-030.
 import { expect, test, type Page } from '@playwright/test';
 import { textoIndicacao } from '../../src/lib/regras/indicar';
-import { abrir, abrirMaisFiltros, busca, candidatos, santinho, santinhos, semCompartilhar, todos } from './apoio';
+import { abrir, abrirMaisFiltros, busca, candidatos, santinho, santinhos, semCompartilhar, todos, verTodos } from './apoio';
 
 /**
  * Números de urna da mesa, na ordem em que aparecem, depois de a mesa completar `n` cartões.
@@ -20,6 +20,7 @@ test.describe('Cenário 13: mesa sem ninguém fixo no topo', () => {
     await abrir(page);
     const a = (await ordem(page, candidatos.length)).slice(0, 20);
     await page.reload();
+    await verTodos(page);
     const b = (await ordem(page, candidatos.length)).slice(0, 20);
     expect(a).not.toEqual(b);
     expect(a).not.toEqual(candidatos.slice(0, 20).map((c) => c.numero_urna));
@@ -67,7 +68,12 @@ test.describe('Cenário 13: mesa sem ninguém fixo no topo', () => {
     const primeiros = new Map<string, number>();
     await abrir(page);
     for (let i = 0; i < 20; i++) {
-      if (i > 0) await page.reload();
+      // Em "Todos" (221), como antes do WP17: com os 48 da reeleição, um sorteio perfeito passa de 2
+      // em ~40% das séries de 20 (SC-030 foi escrito para a mesa de 221).
+      if (i > 0) {
+        await page.reload();
+        await verTodos(page);
+      }
       await expect(santinhos(page).first()).toBeVisible({ timeout: 15_000 });
       const n = (await santinhos(page).first().locator('[aria-label^="Número "]').getAttribute('aria-label'))!.slice(7);
       primeiros.set(n, (primeiros.get(n) ?? 0) + 1);

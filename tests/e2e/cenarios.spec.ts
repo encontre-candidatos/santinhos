@@ -90,11 +90,11 @@ test.describe('Cenário 2: reconhecer os de extrema direita', () => {
     expect(estilo.fundo).toBe(`rgb(${rgb})`);
   });
 
-  test('não existe controle que oculte por partido; visor conta os marcados', async ({ page }) => {
+  test('não existe controle que oculte por partido; o visor não conta os marcados', async ({ page }) => {
     await abrir(page);
     await expect(page.getByRole('button', { name: /confirma|ocult|esconde/i })).toHaveCount(0);
     await expect(page.getByRole('checkbox')).toHaveCount(0);
-    await expect(visorMarcados(page, marcados.length)).toBeVisible();
+    await expect(visorMarcados(page)).toHaveCount(0);
     // a lista de partidos marcados fica só no rodapé (FR-007, 02/10/2026)
     await expect(page.getByRole('complementary', { name: 'Filtros' })).not.toContainText('Partidos marcados');
     // BRANCO e CORRIGE saíram; sem filtro ativo, "Limpar filtros" não aparece (02/10/2026)
@@ -112,19 +112,17 @@ test.describe('Cenário 2: reconhecer os de extrema direita', () => {
       await expect(santinhos(page)).toHaveCount(doPartido.length);
       await expect(page.getByText(MARCA, { exact: true })).toHaveCount(doPartido.length);
       await expect(visorContagem(page, doPartido.length)).toBeVisible();
-      await expect(visorMarcados(page, doPartido.length)).toBeVisible();
       await page.getByRole('button', { name: sigla, exact: true }).click();
     }
   });
 });
 
 test.describe('Cenário 3: lista de partidos editável (ligação com o JSON)', () => {
-  test('rodapé mostra exatamente as siglas de partidos.json e a contagem do visor bate', async ({ page }) => {
+  test('rodapé mostra exatamente as siglas de partidos.json', async ({ page }) => {
     await abrir(page);
     await expect(page.getByRole('contentinfo')).toContainText(
       `Partidos marcados: ${siglasMarcadas.join(', ')}.`
     );
-    await expect(visorMarcados(page, marcados.length)).toBeVisible();
   });
 });
 

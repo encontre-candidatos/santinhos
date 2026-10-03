@@ -41,14 +41,15 @@ function casa(c: Candidato, q: string, numero: string | null, partido: string | 
  * Uma passada só pela base a cada mudança de estado: devolve a lista à mostra e os números do
  * visor tirados da mesma passada (NFR-030, revisão do WP14: antes eram três filtros completos por
  * clique). A lista sai na ordem da entrada: a mesa passa a base já sorteada (FR-060, WP15), e
- * filtrar só tira e põe cartões, sem reordenar. Aplica busca, partido, ocultos e marcas. Não há
+ * filtrar ou trocar a opção do topo só tira e põe cartões, sem reordenar. Aplica opção do topo
+ * (FR-065: em "Reeleição", só quem tenta a reeleição), busca, partido, ocultos e marcas. Não há
  * corte por partido de extrema direita: desde 02/10/2026 todos aparecem, com a marca (FR-005). Com
  * os ocultos escondidos (FR-036), um oculto só entra pelo número completo (FR-037). Marcas ligadas
  * em "Esconder quem tem" escondem quem tem qualquer uma (FR-052), consultando o índice de marcas
  * (calculado uma vez a partir dos dados; sem ele, é montado aqui).
  *
- * Contagem (FR-007, FR-040, FR-053): total da base, à mostra, dos à mostra quantos levam a marca,
- * quantos ocultos há na base, com eles escondidos quantos casam com a busca sem aparecer, e quantos
+ * Contagem (FR-007, FR-040, FR-053, FR-066): total da opção ativa, à mostra, dos à mostra quantos levam a marca,
+ * quantos ocultos há na opção, com eles escondidos quantos casam com a busca sem aparecer, e quantos
  * as marcas ligadas tiraram.
  */
 export function filtrar(
@@ -61,12 +62,16 @@ export function filtrar(
   const numero = buscaNumero(q);
   const esconder = estado.esconder;
   const marcas = esconder.length === 0 ? null : (indice ?? indexarMarcas(candidatos, ctx));
+  const soReeleicao = estado.universo === 'reeleicao';
   const ficam: Candidato[] = [];
+  let total = 0;
   let marcados = 0;
   let ocultos = 0;
   let ocultosNaBusca = 0;
   let escondidosPorMarca = 0;
   for (const c of candidatos) {
+    if (soReeleicao && !c.reeleicao) continue;
+    total++;
     const ehOculto = oculto(c);
     if (ehOculto) ocultos++;
     if (!casa(c, q, numero, estado.partido)) continue;
@@ -86,7 +91,7 @@ export function filtrar(
   }
   return {
     lista: ficam,
-    contagem: { total: candidatos.length, exibidos: ficam.length, marcados, ocultos, ocultosNaBusca, escondidosPorMarca }
+    contagem: { total, exibidos: ficam.length, marcados, ocultos, ocultosNaBusca, escondidosPorMarca }
   };
 }
 
@@ -98,6 +103,22 @@ export function visiveis(
   indice?: IndiceMarcas
 ): Candidato[] {
   return filtrar(candidatos, estado, ctx, indice).lista;
+}
+
+/**
+ * Em "Reeleição", a busca é o número completo de alguém que não tenta a reeleição (FR-068): a
+ * mesa avisa e oferece "Ver em Todos os candidatos". Só quando ele apareceria lá, com o partido e
+ * as chaves de marca de agora; senão o botão levaria a uma mesa vazia. Em "Todos", sempre falso.
+ */
+export function numeroForaDaReeleicao(
+  candidatos: readonly Candidato[],
+  estado: EstadoFiltro,
+  ctx: ContextoMarcas = { siglasMarcadas: [] }
+): boolean {
+  if (estado.universo !== 'reeleicao') return false;
+  const numero = buscaNumero(normalizar(estado.busca));
+  if (numero === null || numero.length !== 4) return false;
+  return visiveis(candidatos, { ...estado, universo: 'todos' }, ctx).some((c) => !c.reeleicao);
 }
 
 function porNome(a: Candidato, b: Candidato): number {

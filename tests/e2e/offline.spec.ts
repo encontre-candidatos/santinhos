@@ -8,11 +8,10 @@ import {
   deputados,
   santinho,
   casam,
-  marcados,
   santinhos,
   teclaLimpar,
-  visorContagem,
-  visorMarcados
+  verTodos,
+  visorContagem
 } from './apoio';
 
 test.beforeEach(() => {
@@ -29,9 +28,8 @@ test('NFR-001: depois da primeira visita, a vitrine funciona sem rede', async ({
   try {
     await page.reload();
     await expect(page.getByRole('heading', { level: 1, name: /Santinhos MG 2026/ })).toBeVisible();
-    await expect(santinhos(page)).toHaveCount(candidatos.length);
+    await verTodos(page);
     await expect(visorContagem(page, candidatos.length)).toBeVisible();
-    await expect(visorMarcados(page, marcados.length)).toBeVisible();
 
     // ao menos uma foto vem do cache: a de um deputado (as do TSE ficam fora do pré-cache, NFR-022)
     const primeira = santinho(page, deputados[0]).getByRole('img', { name: /^Foto de / });

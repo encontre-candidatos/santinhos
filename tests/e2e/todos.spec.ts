@@ -1,7 +1,7 @@
 // Cenário 11 da spec (WP13/T066): todos os candidatos, com ocultos, contra o build e os dados
 // reais; NFR-020 (lista grande com CPU 4× mais lenta) e NFR-022 (offline com a base grande).
 import { expect, test, type Page } from '@playwright/test';
-import { abrir, busca, candidatos, deputados, ocultos, santinho, santinhos, todos, visorContagem } from './apoio';
+import { abrir, busca, candidatos, deputados, ocultos, santinho, santinhos, todos, verTodos, visorContagem } from './apoio';
 
 const botaoOcultos = (page: Page) =>
   page.getByRole('complementary', { name: 'Filtros' }).getByRole('button', { name: /quem nunca teve cargo/ });
@@ -46,7 +46,7 @@ test.describe('Cenário 11: ver todos os candidatos, sem afogar', () => {
 
     await botaoOcultos(page).click();
     await page.reload();
-    await expect(santinhos(page)).toHaveCount(candidatos.length);
+    await verTodos(page);
   });
 
   test('número completo de um oculto: cartão meio transparente, com a frase, e legível', async ({ page }) => {
@@ -136,7 +136,7 @@ test.describe('NFR-022: offline com a base grande', () => {
     await context.setOffline(true);
     try {
       await page.reload();
-      await expect(santinhos(page)).toHaveCount(candidatos.length);
+      await verTodos(page);
       await busca(page).fill(alvo.numero_urna);
       const s = santinho(page, alvo);
       await expect(s).toHaveCount(1);

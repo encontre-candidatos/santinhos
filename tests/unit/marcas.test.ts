@@ -11,7 +11,7 @@ import dados from '../fixtures/candidatos-ficticios.json';
 
 const base = dados as Candidato[];
 const ctx = { siglasMarcadas: ['PL', 'PRTB'] };
-const inicio: EstadoFiltro = { busca: '', partido: null, mostrarOcultos: false, esconder: [] };
+const inicio: EstadoFiltro = { universo: 'todos', busca: '', partido: null, mostrarOcultos: false, esconder: [] };
 const marca = (id: string) => MARCAS.find((m) => m.id === id)!;
 
 // Casos que a fixture pode não ter: um de cada, a partir do primeiro candidato.

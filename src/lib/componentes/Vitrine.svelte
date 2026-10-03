@@ -6,6 +6,8 @@
   Versão 4310 (03/10/2026, docs/eleitor-indeciso.md): no topo, antes de tudo, o botão "Me ajude a
   escolher" (Guia) e, com número guardado, a etiqueta da colinha. A cidade (do guia ou do painel)
   vive só no estado da página e liga a linha "é da sua região" dos cartões.
+  Desde 03/10/2026 a página abre só com quem tenta a reeleição (FR-065); a escolha do topo
+  (AbasFeed) leva a todos os candidatos, e trocar só tira e põe cartões (FR-066, FR-067).
 -->
 <script lang="ts">
   import '$lib/estilo/global.css';
@@ -14,14 +16,15 @@
   import { onMount, untrack } from 'svelte';
   import { candidatos, base, siglasMarcadas, municipios } from '$lib/dados';
   import { apagarColinha, colinhaDe, gravarColinha, lerColinha, type Colinha as TipoColinha } from '$lib/colinha';
-  import { filtrar, marcadoExtremaDireita, ordenar } from '$lib/regras/filtros';
+  import { filtrar, marcadoExtremaDireita, numeroForaDaReeleicao, ordenar } from '$lib/regras/filtros';
   import { embaralhar } from '$lib/regras/sorteio';
   import { indicar, textoIndicacao, numeroDoLink } from '$lib/regras/indicar';
   import { transparente } from '$lib/regras/ocultos';
   import { contarPorMarca, indexarMarcas, MARCAS } from '$lib/marcas';
-  import type { Candidato, EstadoFiltro, Municipio } from '$lib/tipos';
+  import type { Candidato, EstadoFiltro, Municipio, Universo } from '$lib/tipos';
   import Guia from './Guia.svelte';
   import Colinha from './Colinha.svelte';
+  import AbasFeed from './AbasFeed.svelte';
   import Painel from './Painel.svelte';
   import Santinho from './Santinho.svelte';
   import Tecla from './Tecla.svelte';
@@ -32,7 +35,8 @@
 
   // Os ocultos começam escondidos a cada visita; a escolha não é guardada (FR-036).
   // Chaves de "Esconder quem tem" também começam desligadas e não são guardadas (FR-054, C-020).
-  const inicial: EstadoFiltro = { busca: '', partido: null, mostrarOcultos: false, esconder: [] };
+  // Toda abertura começa em "Reeleição"; a opção não vai para o aparelho nem para o endereço (FR-069).
+  const inicial: EstadoFiltro = { universo: 'reeleicao', busca: '', partido: null, mostrarOcultos: false, esconder: [] };
   let estado = $state<EstadoFiltro>({ ...inicial });
 
   // Ordem sorteada (FR-060, WP15): a base vem em ordem de nome no HTML pré-renderizado e é
@@ -54,7 +58,10 @@
     if (!n) return;
     guiaAberto = false;
     colinhaAberta = false;
-    estado = { ...inicial, busca: n };
+    // O link é de um cartão: se ele não está na reeleição, abre direto em "Todos" (WP17), em vez
+    // do aviso da FR-068. A escolha segue sem ser guardada (FR-069).
+    const naReeleicao = candidatos.some((c) => c.reeleicao && c.numero_urna === n);
+    estado = { ...inicial, busca: n, universo: naReeleicao ? 'reeleicao' : 'todos' };
     scrollTo({ top: 0 });
   });
 
@@ -98,6 +105,9 @@
   const filtro = $derived(filtrar(ordemBase, estado, ctxMarcas, indiceMarcas));
   const lista = $derived(filtro.lista);
   const contagem = $derived(filtro.contagem);
+  // Contagens das duas opções do topo: da base, não do filtro (FR-066).
+  const nReeleicao = candidatos.filter((c) => c.reeleicao).length;
+  const foraDaReeleicao = $derived(numeroForaDaReeleicao(candidatos, estado, ctxMarcas));
 
   // Mesa em lotes (NFR-020, WP13). Medido em 02/10/2026 com a CPU 4× mais lenta: montar os 756
   // de uma vez levava 2,8 s, e tirar centenas de cartões da mesa, ~230 ms só de remoção no DOM.
@@ -165,9 +175,18 @@
   function mudar(e: Partial<EstadoFiltro>) {
     Object.assign(estado, e);
   }
-  /** "Limpar filtros": volta ao início (sem busca, sem partido). */
+  /** "Limpar filtros": volta ao início (sem busca, sem partido), sem mexer na opção do topo. */
   function todos() {
-    mudar({ ...inicial, esconder: [] });
+    mudar({ ...inicial, universo: estado.universo, esconder: [] });
+  }
+  function trocarUniverso(universo: Universo) {
+    mudar({ universo });
+  }
+  /** "Ver em Todos os candidatos" (FR-068): o botão some com o aviso; o foco volta à busca, que ficou. */
+  function verEmTodos() {
+    trocarUniverso('todos');
+    // preventScroll: rolar até a busca forçava o layout da mesa inteira no mesmo quadro (NFR-002).
+    document.getElementById('busca')?.focus({ preventScroll: true });
   }
 
   let aviso = $state<MensagemAviso | null>(null);
@@ -206,6 +225,10 @@
     </button>
   </section>
 
+  <div class="topo">
+    <AbasFeed universo={estado.universo} {nReeleicao} nTodos={candidatos.length} ontrocar={trocarUniverso} />
+  </div>
+
   <Painel
     {cidade}
     {municipios}
@@ -221,9 +244,19 @@
   <main>
     <DicaInstalar />
     <h2 class="sr">Candidatos</h2>
+    <!-- Região viva sempre no DOM: o aviso é anunciado ao aparecer (FR-068). Não é role="status"
+         porque esse papel já é do aviso de "Indicar". -->
+    <div aria-live="polite">
+      {#if foraDaReeleicao}
+        <div class="vazio fora">
+          <p>Esse número é de quem não tenta a reeleição.</p>
+          <div class="limpar"><Tecla rotulo="Ver em Todos os candidatos" onclick={verEmTodos} /></div>
+        </div>
+      {/if}
+    </div>
     <!-- A mesa existe sempre, mesmo vazia: assim `naMesa` (e o registro do que está montado) segue
          em dia durante uma busca sem resultado, e a volta não remonta a mesa velha (revisão do WP13). -->
-    {#if lista.length === 0}
+    {#if lista.length === 0 && !foraDaReeleicao}
       <div class="vazio">
         <p>Nenhum candidato com esses filtros.</p>
         {#if !estado.mostrarOcultos && contagem.ocultosNaBusca > 0}
@@ -286,26 +319,42 @@
 <Aviso {aviso} onfechar={() => (aviso = null)} />
 
 <style>
+  /* "Me ajude a escolher" no alto, nas duas colunas; a escolha do topo logo abaixo, acima da mesa e,
+     no celular, acima do painel, visível sem rolar (FR-066). */
   .app {
     max-width: 1240px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 300px minmax(0, 1fr);
-    gap: 28px;
+    grid-template-areas:
+      'inicio inicio'
+      'painel topo'
+      'painel mesa';
+    column-gap: 28px;
+    row-gap: 16px;
     align-items: start;
+  }
+  .app > :global(.urna) {
+    grid-area: painel;
+  }
+  .topo {
+    grid-area: topo;
+    min-width: 0;
   }
   @media (max-width: 860px) {
     .app {
       grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'inicio' 'topo' 'painel' 'mesa';
     }
   }
   main {
+    grid-area: mesa;
     min-width: 0;
   }
 
   /* "Me ajude a escolher": a primeira coisa da página, nas duas colunas; tecla CONFIRMA grande. */
   .inicio {
-    grid-column: 1 / -1;
+    grid-area: inicio;
   }
   .me-ajude {
     width: 100%;
@@ -401,6 +450,11 @@
   }
   .vazio p {
     margin: 0 0 4px;
+  }
+  .fora {
+    color: var(--fg);
+    font-weight: 600;
+    margin-bottom: 22px;
   }
   .limpar {
     display: inline-block;

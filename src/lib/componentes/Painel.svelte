@@ -9,6 +9,8 @@
   Todos os candidatos (WP13): o visor conta à mostra, total e ocultos (FR-040), e o botão
   "Mostrar quem nunca teve cargo" alterna os ocultos (FR-036); com busca ativa, diz quantos
   ocultos casam com ela (FR-037).
+  03/10/2026: a linha "N marcados como extrema direita" saiu do visor, a pedido da usuária; a
+  marca continua nos cartões e a lista dos partidos, no rodapé.
   Versão 4310 (03/10/2026): "Sua cidade" logo depois da busca. Escolhida aqui ou no guia, os
   cartões dizem quem ficou entre os 10 mais votados dela em 2022; não filtra nem reordena.
 -->
@@ -76,10 +78,6 @@
   <div class="visor" aria-live="polite">
     <div class="rot">Candidatos na mesa</div>
     <div class="cont">{contagem.exibidos} <span>de {contagem.total}</span></div>
-    <div class="marcados">
-      {contagem.marcados}
-      {contagem.marcados === 1 ? 'marcado' : 'marcados'} como extrema direita
-    </div>
     {#if contagem.escondidosPorMarca > 0}
       <div class="ocultos">
         {contagem.escondidosPorMarca} {contagem.escondidosPorMarca === 1 ? 'escondido' : 'escondidos'} pelas marcas
@@ -229,14 +227,6 @@
     font-size: 20px;
     font-weight: 600;
     color: var(--tinta-2);
-  }
-  .visor .marcados {
-    font-size: 12px;
-    font-weight: 700;
-    margin-top: 6px;
-    /* Texto em tinta (o vermelho sobre o visor escuro dá 4,01:1); o vermelho fica no fio. */
-    border-left: 5px solid var(--carimbo);
-    padding-left: 6px;
   }
 
   .visor .ocultos {

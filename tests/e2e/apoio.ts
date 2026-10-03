@@ -58,14 +58,33 @@ export const teclaLimpar = (page: Page) =>
 export const visorContagem = (page: Page, exibidos: number) =>
   page.getByRole('complementary', { name: 'Filtros' }).getByText(`${exibidos} de ${todos.length}`, { exact: true });
 
-/** Linha do visor com quantos dos exibidos levam a marca. */
-export const visorMarcados = (page: Page, n: number) =>
-  page.getByText(`${n} ${n === 1 ? 'marcado' : 'marcados'} como extrema direita`, { exact: true });
+/** A linha "N marcados como extrema direita" saiu do visor em 03/10/2026 (pedido da usuária). */
+export const visorMarcados = (page: Page) =>
+  page.getByRole('complementary', { name: 'Filtros' }).getByText(/marcados? como extrema direita/);
 
-/** Abre a vitrine e espera a mesa no estado inicial: todos os candidatos. */
-export async function abrir(page: Page) {
+/** Opções do topo (WP17, FR-066): "Reeleição (N)" e "Todos os candidatos (M)". */
+export const teclaReeleicao = (page: Page) => page.getByRole('button', { name: /^Reeleição \(\d+\)$/ });
+export const teclaTodos = (page: Page) => page.getByRole('button', { name: /^Todos os candidatos \(\d+\)$/ });
+
+/** Abre a vitrine e espera a mesa no estado inicial: só quem tenta a reeleição (FR-065). */
+export async function abrirReeleicao(page: Page) {
   await page.goto('/');
+  await expect(santinhos(page)).toHaveCount(deputados.length);
+}
+
+/** Toca em "Todos os candidatos" e espera a mesa de todos, com os ocultos escondidos (FR-036). */
+export async function verTodos(page: Page) {
+  await teclaTodos(page).click();
   await expect(santinhos(page)).toHaveCount(candidatos.length);
+}
+
+/**
+ * Abre a vitrine e vai a "Todos os candidatos": o estado que os testes anteriores ao WP17
+ * conferem (a página abria assim até 03/10/2026).
+ */
+export async function abrir(page: Page) {
+  await abrirReeleicao(page);
+  await verTodos(page);
 }
 
 /** No celular partido fica em "Mais filtros" (fechado); no desktop sempre aberto. */

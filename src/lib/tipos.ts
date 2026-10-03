@@ -113,7 +113,11 @@ export interface Base {
   nao_concorrem: NaoConcorre[];
 }
 
+/** Opção do topo (FR-066): só quem tenta a reeleição ou todos os candidatos da base. */
+export type Universo = 'reeleicao' | 'todos';
+
 export interface EstadoFiltro {
+  universo: Universo;           // começa em 'reeleicao' a cada visita, nunca guardado (FR-065, FR-069)
   busca: string;
   partido: string | null;       // nada oculta por partido (FR-005, alterado em 02/10/2026)
   mostrarOcultos: boolean;      // quem nunca teve cargo (FR-036); começa false a cada visita
@@ -121,10 +125,10 @@ export interface EstadoFiltro {
 }
 
 export interface Contagem {
-  total: number;                // todos os candidatos da base
+  total: number;                // candidatos da opção ativa: os da reeleição ou todos da base (FR-066)
   exibidos: number;             // à mostra, depois de busca, partido e ocultos
   marcados: number;             // dos exibidos, quantos são de partido marcado como extrema direita
-  ocultos: number;              // da base, quantos nunca tiveram cargo (FR-036)
+  ocultos: number;              // da opção ativa, quantos nunca tiveram cargo (FR-036); 0 em "Reeleição"
   ocultosNaBusca: number;       // com os ocultos escondidos: quantos casam com busca e partido e não aparecem (FR-037, FR-040)
   escondidosPorMarca: number;   // quantos busca, partido e ocultos deixariam, mas as marcas ligadas tiraram (FR-053)
 }

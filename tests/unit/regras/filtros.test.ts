@@ -5,7 +5,7 @@ import dados from '../../fixtures/candidatos-ficticios.json';
 
 const candidatos = dados as Candidato[];
 const SIGLAS = ['PL', 'PRTB'] as const;
-const base: EstadoFiltro = { busca: '', partido: null, mostrarOcultos: false, esconder: [] };
+const base: EstadoFiltro = { universo: 'todos', busca: '', partido: null, mostrarOcultos: false, esconder: [] };
 const nomes = (l: readonly Candidato[]) => l.map((c) => c.nome_urna);
 
 describe('fixture', () => {

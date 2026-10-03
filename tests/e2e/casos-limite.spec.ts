@@ -7,12 +7,10 @@ import {
   busca,
   candidatos,
   deputados,
-  marcados,
   normalizar,
   santinho,
   santinhos,
-  visorContagem,
-  visorMarcados
+  visorContagem
 } from './apoio';
 
 test('deputado sem candidatura não vira santinho e aparece no rodapé', async ({ page }) => {
@@ -98,5 +96,4 @@ test('filtro sem resultado avisa e "Limpar filtros" volta ao início', async ({ 
   await expect(busca(page)).toHaveValue('');
   await expect(santinhos(page)).toHaveCount(candidatos.length);
   await expect(visorContagem(page, candidatos.length)).toBeVisible();
-  await expect(visorMarcados(page, marcados.length)).toBeVisible();
 });

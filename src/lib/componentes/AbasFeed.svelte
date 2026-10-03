@@ -1,6 +1,7 @@
 <!--
   Escolha do topo (WP17, FR-066): "Reeleição (N)" ou "Todos os candidatos (M)", com N e M da base.
-  Duas teclas da urna com `aria-pressed`; a ativa fica como visor, igual às teclas de partido.
+  Duas teclas da urna com `aria-pressed`; a ativa fica escura e a outra clara (o contrário das
+  teclas de partido, desde 03/10/2026).
   Não guarda nada: a escolha vive no estado da Vitrine e toda abertura começa em "Reeleição"
   (FR-069). Trocar não mexe na busca, no partido nem nas chaves de marca (FR-067).
 -->
@@ -46,5 +47,17 @@
     padding-inline: 8px;
     white-space: normal;
     text-align: center;
+  }
+  /* Aqui é o contrário das teclas de partido: a opção ativa fica escura e a outra clara,
+     porque nas abas o claro parecia "desligado" (pedido da usuária, 03/10/2026). */
+  .abas :global(button[aria-pressed='false']) {
+    background: var(--visor);
+    color: var(--tinta);
+    box-shadow: inset 0 0 0 2px var(--tecla);
+  }
+  .abas :global(button[aria-pressed='true']) {
+    background: var(--tecla);
+    color: var(--tecla-tx);
+    box-shadow: inset 0 -3px 0 #000;
   }
 </style>

@@ -4,7 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import type { Candidato, Municipio } from '../../src/lib/tipos';
-import { abrir, deputados, santinho } from './apoio';
+import { abrirReeleicao, abrir, deputados, santinho } from './apoio';
 
 const municipios = JSON.parse(
   readFileSync(new URL('../../src/lib/dados/municipios.json', import.meta.url), 'utf-8')
@@ -31,7 +31,8 @@ async function abrirGuia(page: Page) {
 }
 
 test('o botão do guia é a primeira coisa da página, acima do painel e dos cartões', async ({ page }) => {
-  await abrir(page);
+  // Sem tocar em nada: abrir() toca em "Todos os candidatos" e o foco já passaria do guia (WP17).
+  await abrirReeleicao(page);
   const botao = page.getByRole('button', { name: /Me ajude a escolher/ });
   const b = (await botao.boundingBox())!;
   const painel = (await page.getByRole('complementary', { name: 'Filtros' }).boundingBox())!;

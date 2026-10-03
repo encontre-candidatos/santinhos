@@ -1,0 +1,23 @@
+# Ferramentas de agente e planejamento (não publicados)
+.claude/
+.codex/
+.kittify/
+.worktrees/
+.spec-kitty/
+benchmark-classificacao-candidatos.md
+docs/publicacao.md
+
+# Planejamento: só os contratos JSON sobem (os testes de contrato leem eles)
+kitty-specs/**
+!kitty-specs/**/
+!kitty-specs/**/contracts/
+!kitty-specs/**/contracts/*.json
+
+# Projeto
+node_modules/
+build/
+.svelte-kit/
+test-results/
+playwright-report/
+scripts/.cache/
+dev-dist/

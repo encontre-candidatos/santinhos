@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "partidos.json",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["sigla", "nome", "extrema_direita", "classificado_em", "motivo"],
+    "properties": {
+      "sigla": { "type": "string", "minLength": 2 },
+      "nome": { "type": "string" },
+      "extrema_direita": { "type": "boolean" },
+      "classificado_em": { "type": "string", "format": "date" },
+      "motivo": { "type": "string", "minLength": 1 }
+    }
+  }
+}

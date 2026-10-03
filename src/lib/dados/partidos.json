@@ -1,0 +1,191 @@
+[
+  {
+    "sigla": "AVANTE",
+    "nome": "AVANTE",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "CIDADANIA",
+    "nome": "CIDADANIA",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "DC",
+    "nome": "DEMOCRACIA CRISTÃ",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "MDB",
+    "nome": "MOVIMENTO DEMOCRÁTICO BRASILEIRO",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "MISSÃO",
+    "nome": "PARTIDO MISSÃO",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "MOBILIZA",
+    "nome": "MOBILIZAÇÃO NACIONAL",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "NOVO",
+    "nome": "PARTIDO NOVO",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PCDOB",
+    "nome": "PARTIDO COMUNISTA DO BRASIL",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PCO",
+    "nome": "PARTIDO DA CAUSA OPERÁRIA",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PDT",
+    "nome": "PARTIDO DEMOCRÁTICO TRABALHISTA",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PL",
+    "nome": "PARTIDO LIBERAL",
+    "extrema_direita": true,
+    "classificado_em": "2026-09-30",
+    "motivo": "decisão da usuária, 30/09/2026"
+  },
+  {
+    "sigla": "PODE",
+    "nome": "PODEMOS",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PP",
+    "nome": "PROGRESSISTAS",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PRD",
+    "nome": "PARTIDO RENOVACAO DEMOCRATICA",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PRTB",
+    "nome": "PARTIDO RENOVADOR TRABALHISTA BRASILEIRO",
+    "extrema_direita": true,
+    "classificado_em": "2026-09-30",
+    "motivo": "decisão da usuária, 30/09/2026"
+  },
+  {
+    "sigla": "PSB",
+    "nome": "PARTIDO SOCIALISTA BRASILEIRO",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PSD",
+    "nome": "PARTIDO SOCIAL DEMOCRÁTICO",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PSDB",
+    "nome": "PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PSOL",
+    "nome": "PARTIDO SOCIALISMO E LIBERDADE",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PSTU",
+    "nome": "PARTIDO SOCIALISTA  DOS TRABALHADORES UNIFICADO",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PT",
+    "nome": "PARTIDO DOS TRABALHADORES",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "PV",
+    "nome": "PARTIDO VERDE",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "REDE",
+    "nome": "REDE SUSTENTABILIDADE",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "REPUBLICANOS",
+    "nome": "REPUBLICANOS",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "SOLIDARIEDADE",
+    "nome": "SOLIDARIEDADE",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "UNIÃO",
+    "nome": "UNIÃO BRASIL",
+    "extrema_direita": false,
+    "classificado_em": "2026-09-30",
+    "motivo": "não classificado"
+  },
+  {
+    "sigla": "UP",
+    "nome": "UNIDADE POPULAR",
+    "extrema_direita": false,
+    "classificado_em": "2026-10-02",
+    "motivo": "não classificado"
+  }
+]

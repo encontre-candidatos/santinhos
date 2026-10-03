@@ -1,0 +1,392 @@
+[
+  {
+    "id_camara": 900001,
+    "sq_candidato": "990000000001",
+    "nome_urna": "Tião do Cerrado",
+    "nome_civil": "Sebastião Ficticio da Silva",
+    "numero_urna": "2201",
+    "partido": "PL",
+    "partido_posse": "PL",
+    "condicao": "titular",
+    "mandatos": 3,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": "https://www.instagram.com/tiaodocerrado/",
+    "url_camara": "https://www.camara.leg.br/deputados/900001",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900001",
+    "patrimonio_total": 1234567.89,
+    "patrimonio_itens": 9,
+    "patrimonio_2022": 600000,
+    "patrimonio_anterior": {
+      "ano": 2018,
+      "valor": 400000,
+      "fator_ipca": 1.5095697470216904
+    },
+    "voto_6x1": {
+      "final": "sim",
+      "primeiro_turno": "sim",
+      "emendas": [
+        1,
+        2
+      ]
+    },
+    "votacoes_2026": {
+      "votou": 117,
+      "total": 123
+    },
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  },
+  {
+    "id_camara": 900002,
+    "sq_candidato": "990000000002",
+    "nome_urna": "Heloísa Paixão",
+    "nome_civil": "Heloísa Inventada Paixão",
+    "numero_urna": "1302",
+    "partido": "PT",
+    "partido_posse": "PT",
+    "condicao": "titular",
+    "mandatos": 2,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": null,
+    "url_camara": "https://www.camara.leg.br/deputados/900002",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900002",
+    "patrimonio_total": null,
+    "patrimonio_itens": 0,
+    "patrimonio_2022": 50000,
+    "patrimonio_anterior": {
+      "ano": 2022,
+      "valor": 50000,
+      "fator_ipca": 1.1947699671459897
+    },
+    "voto_6x1": {
+      "final": "sim",
+      "primeiro_turno": "sim",
+      "emendas": []
+    },
+    "votacoes_2026": {
+      "votou": 67,
+      "total": 123
+    },
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  },
+  {
+    "id_camara": 900003,
+    "sq_candidato": "990000000003",
+    "nome_urna": "Álvaro Serrano",
+    "nome_civil": "Álvaro Exemplo Serrano",
+    "numero_urna": "4003",
+    "partido": "PSB",
+    "partido_posse": "PSB",
+    "condicao": "titular",
+    "mandatos": 1,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": null,
+    "url_camara": "https://www.camara.leg.br/deputados/900003",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900003",
+    "patrimonio_total": 0,
+    "patrimonio_itens": 2,
+    "patrimonio_2022": 0,
+    "patrimonio_anterior": {
+      "ano": 2022,
+      "valor": 0,
+      "fator_ipca": 1.1947699671459897
+    },
+    "voto_6x1": {
+      "final": "ausente",
+      "primeiro_turno": "sim",
+      "emendas": [
+        2
+      ]
+    },
+    "votacoes_2026": {
+      "votou": 19,
+      "total": 123
+    },
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  },
+  {
+    "id_camara": 900004,
+    "sq_candidato": "990000000004",
+    "nome_urna": "Bruno Vereda",
+    "nome_civil": "Bruno Teste Vereda",
+    "numero_urna": "5504",
+    "partido": "PSD",
+    "partido_posse": "PSD",
+    "condicao": "suplente_em_exercicio",
+    "mandatos": 1,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": null,
+    "url_camara": "https://www.camara.leg.br/deputados/900004",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900004",
+    "patrimonio_total": 250000,
+    "patrimonio_itens": 1,
+    "patrimonio_2022": 128205.13,
+    "patrimonio_anterior": {
+      "ano": 2022,
+      "valor": 128205.13,
+      "fator_ipca": 1.1947699671459897
+    },
+    "voto_6x1": {
+      "final": "ausente",
+      "primeiro_turno": "ausente",
+      "emendas": []
+    },
+    "votacoes_2026": {
+      "votou": 39,
+      "total": 67
+    },
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  },
+  {
+    "id_camara": 900005,
+    "sq_candidato": "990000000005",
+    "nome_urna": "Élida Montes",
+    "nome_civil": "Élida Modelo Montes",
+    "numero_urna": "2805",
+    "partido": "PRTB",
+    "partido_posse": "PRTB",
+    "condicao": "titular",
+    "mandatos": 2,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": null,
+    "url_camara": "https://www.camara.leg.br/deputados/900005",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900005",
+    "patrimonio_total": 2500000.5,
+    "patrimonio_itens": 4,
+    "patrimonio_2022": null,
+    "patrimonio_anterior": null,
+    "voto_6x1": {
+      "final": "nao",
+      "primeiro_turno": "nao",
+      "emendas": []
+    },
+    "votacoes_2026": null,
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  },
+  {
+    "id_camara": 900006,
+    "sq_candidato": "990000000006",
+    "nome_urna": "Carla Ribeirão",
+    "nome_civil": "Carla Hipotética Ribeirão",
+    "numero_urna": "5506",
+    "partido": "PSD",
+    "partido_posse": "PL",
+    "condicao": "titular",
+    "mandatos": 4,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": null,
+    "url_camara": "https://www.camara.leg.br/deputados/900006",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900006",
+    "patrimonio_total": 89000.4,
+    "patrimonio_itens": 3,
+    "patrimonio_2022": 44500.2,
+    "patrimonio_anterior": {
+      "ano": 2022,
+      "valor": 44500.2,
+      "fator_ipca": 1.1947699671459897
+    },
+    "voto_6x1": {
+      "final": null,
+      "primeiro_turno": null,
+      "emendas": []
+    },
+    "votacoes_2026": {
+      "votou": 105,
+      "total": 105
+    },
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  },
+  {
+    "id_camara": 900007,
+    "sq_candidato": "990000000007",
+    "nome_urna": "Diego Lagoa",
+    "nome_civil": "Diego Simulado Lagoa",
+    "numero_urna": "1307",
+    "partido": "PT",
+    "partido_posse": "PT",
+    "condicao": "titular",
+    "mandatos": 2,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": null,
+    "url_camara": "https://www.camara.leg.br/deputados/900007",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900007",
+    "patrimonio_total": null,
+    "patrimonio_itens": 0,
+    "patrimonio_2022": null,
+    "patrimonio_anterior": null,
+    "voto_6x1": {
+      "final": "sim",
+      "primeiro_turno": "sim",
+      "emendas": []
+    },
+    "votacoes_2026": {
+      "votou": 1,
+      "total": 123
+    },
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  },
+  {
+    "id_camara": 900008,
+    "sq_candidato": "990000000008",
+    "nome_urna": "Fábio Chapada",
+    "nome_civil": "Fábio Imaginário Chapada",
+    "numero_urna": "2208",
+    "partido": "PL",
+    "partido_posse": "PL",
+    "condicao": "titular",
+    "mandatos": 1,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": null,
+    "url_camara": "https://www.camara.leg.br/deputados/900008",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900008",
+    "patrimonio_total": 1000000000,
+    "patrimonio_itens": 12,
+    "patrimonio_2022": 9443000,
+    "patrimonio_anterior": {
+      "ano": 2022,
+      "valor": 9443000,
+      "fator_ipca": 1.1947699671459897
+    },
+    "voto_6x1": {
+      "final": "sim",
+      "primeiro_turno": "sim",
+      "emendas": []
+    },
+    "votacoes_2026": {
+      "votou": 50,
+      "total": 123
+    },
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  },
+  {
+    "id_camara": 900009,
+    "sq_candidato": "990000000009",
+    "nome_urna": "Zuleica Brejo",
+    "nome_civil": "Zuleica Fantasia Brejo",
+    "numero_urna": "4009",
+    "partido": "PSB",
+    "partido_posse": "PSB",
+    "condicao": "titular",
+    "mandatos": 5,
+    "situacao_candidatura": "APTO",
+    "foto": null,
+    "instagram": null,
+    "url_camara": "https://www.camara.leg.br/deputados/900009",
+    "url_divulgacand": "https://divulgacandcontas.tse.jus.br/exemplo/900009",
+    "patrimonio_total": 480000,
+    "patrimonio_itens": 5,
+    "patrimonio_2022": 0,
+    "patrimonio_anterior": {
+      "ano": 2022,
+      "valor": 0,
+      "fator_ipca": 1.1947699671459897
+    },
+    "voto_6x1": {
+      "final": "sim",
+      "primeiro_turno": "sim",
+      "emendas": []
+    },
+    "votacoes_2026": {
+      "votou": 103,
+      "total": 105
+    },
+    "reeleicao": true,
+    "cargos_anteriores": [
+      {
+        "cargo": "deputado federal",
+        "lugar": "MG",
+        "ano": 2022
+      }
+    ],
+    "regiao_2022": null,
+    "governo_2026": null,
+    "blindagem": null
+  }
+]

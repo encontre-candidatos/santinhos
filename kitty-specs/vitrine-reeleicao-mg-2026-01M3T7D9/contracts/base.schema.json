@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "base.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["data_conferido", "fontes", "total_deputados_mg", "nao_concorrem"],
+  "properties": {
+    "data_conferido": { "type": "string", "format": "date" },
+    "fontes": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["nome", "url", "arquivo_ou_endpoint"],
+        "properties": {
+          "nome": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "arquivo_ou_endpoint": { "type": "string" }
+        }
+      }
+    },
+    "total_deputados_mg": { "type": "integer", "minimum": 1 },
+    "nao_concorrem": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id_camara", "nome"],
+        "properties": { "id_camara": { "type": "integer" }, "nome": { "type": "string" } }
+      }
+    }
+  }
+}

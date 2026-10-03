@@ -1,0 +1,58 @@
+/*
+ * Tokens da identidade "Santinho & Urna" (research.md R7).
+ * Valores copiados de research/amostra-santinho-urna.html; o tema escuro segue só o sistema.
+ *
+ * Contraste WCAG medido em 30/09/2026 (NFR-004, mínimo 4,5:1):
+ *   claro:  fg/mesa 13,53 · tinta/papel 17,64 · carimbo/papel 6,48 · muted/mesa 6,71 · muted/urna 5,09 · tinta-2/papel 6,89
+ *   escuro: fg/mesa 13,56 · tinta/papel 15,19 · carimbo/papel 4,71 · muted/mesa 7,42 · tinta-2/papel 5,93
+ *   #000 sobre confirma 7,41 · #111 sobre confirma 6,67 · #000 sobre corrige 7,33 · #111 sobre corrige 6,59
+ *   carimbo sobre --carimbo-fundo com foto preta por baixo: claro 5,46 · escuro 4,62
+ * 02/10/2026: a marca "EXTREMA DIREITA" é texto --carimbo-tx sobre --carimbo: claro 6,48 · escuro 5,47.
+ *   --carimbo-fundo (carimbo sobre a foto) e --confirma (tecla CONFIRMA) saíram sem uso.
+ * 30/09/2026: --muted claro escurecido de #4f5752 (4,30 sobre --urna) para #454c48, achado do WP06.
+ */
+:root {
+  --mesa: #dde2da;
+  --fg: #16181a;
+  --muted: #454c48;
+  --linha: #b9c0b6;
+  --papel: #fffefa;
+  --tinta: #16181a;
+  --tinta-2: #555b57;
+  --urna: #cdc4b1;
+  --urna-borda: #a89f8b;
+  --visor: #e7ebe1;
+  --tecla: #1b1b1b;
+  --tecla-tx: #fafafa;
+  --corrige: #ea7a32;
+  /* Tecla CONFIRMA da urna (versão 4310, 03/10/2026): guia, "Vou votar neste" e colinha.
+     #111 sobre ela: 6,76:1. Fixa nos dois temas, como --corrige. */
+  --confirma: #4cae5c;
+  --branco: #f5f5f0;
+  --carimbo: #b3261e;
+  /* Texto da marca "EXTREMA DIREITA" sobre --carimbo; fixo nos dois temas. */
+  --carimbo-tx: #fffefa;
+  /* Selo "votou a favor" da 6x1 (WP10); o santinho é papel claro nos dois temas, então fixo. */
+  --favor: #1d6b3a;
+  --favor-fundo: #e3f0e6;
+  --display: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+  --texto: 'Public Sans', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mesa: #1b201e;
+    --fg: #e6eae4;
+    --muted: #a7b0aa;
+    --linha: #39413c;
+    --papel: #efede5;
+    --urna: #3b372f;
+    --urna-borda: #57503f;
+    --visor: #d9ddd2;
+    --branco: #e9e9e3;
+    --carimbo: #c2332a;
+    color-scheme: dark;
+  }
+}

@@ -1,0 +1,54 @@
+/* Fontes auto-hospedadas (@fontsource, só o subset latin; o "exports" do pacote já acrescenta .css): nada de Google Fonts em tempo de execução (NFR-001). */
+@import '@fontsource/big-shoulders-display/latin-600';
+@import '@fontsource/big-shoulders-display/latin-800';
+@import '@fontsource/big-shoulders-display/latin-900';
+@import '@fontsource/public-sans/latin-400';
+@import '@fontsource/public-sans/latin-600';
+@import '@fontsource/public-sans/latin-700';
+@import '@fontsource/jetbrains-mono/latin-500';
+@import '@fontsource/jetbrains-mono/latin-700';
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--mesa);
+  color: var(--fg);
+  font-family: var(--texto);
+  font-size: 15px;
+  line-height: 1.5;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  padding-top: calc(env(safe-area-inset-top, 0px) + 20px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
+}
+
+img {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid var(--corrige);
+  outline-offset: 2px;
+}
+
+/* Sem movimento: transições e animações zeradas; as rotações somem em cada componente (Santinho, Carimbo). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

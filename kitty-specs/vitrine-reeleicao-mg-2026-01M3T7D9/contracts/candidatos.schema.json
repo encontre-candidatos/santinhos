@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "candidatos.json",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id_camara", "sq_candidato", "nome_urna", "nome_civil", "numero_urna", "partido", "partido_posse", "condicao", "mandatos", "situacao_candidatura", "url_camara", "url_divulgacand", "patrimonio_total", "patrimonio_itens", "patrimonio_2022", "voto_6x1", "votacoes_2026", "reeleicao", "cargos_anteriores", "regiao_2022", "governo_2026", "blindagem", "patrimonio_anterior"],
+    "properties": {
+      "id_camara": { "type": ["integer", "null"] },
+      "sq_candidato": { "type": "string", "pattern": "^\\d+$" },
+      "nome_urna": { "type": "string", "minLength": 1 },
+      "nome_civil": { "type": "string", "minLength": 1 },
+      "numero_urna": { "type": "string", "pattern": "^\\d{4}$" },
+      "partido": { "type": "string", "minLength": 2 },
+      "partido_posse": { "type": ["string", "null"], "minLength": 2 },
+      "condicao": { "enum": ["titular", "suplente_em_exercicio", null] },
+      "mandatos": { "type": "integer", "minimum": 0 },
+      "situacao_candidatura": { "type": "string", "minLength": 1 },
+      "foto": { "type": ["string", "null"] },
+      "instagram": { "type": ["string", "null"], "pattern": "^https://www\\.instagram\\.com/[a-z0-9._]+/$" },
+      "url_camara": { "type": ["string", "null"], "format": "uri", "pattern": "^https://www\\.camara\\.leg\\.br/" },
+      "url_divulgacand": { "type": "string", "format": "uri", "pattern": "^https://divulgacandcontas\\.tse\\.jus\\.br/" },
+      "patrimonio_total": { "type": ["number", "null"], "minimum": 0, "description": "Soma de VR_BEM_CANDIDATO (TSE 2026); null = nenhum bem declarado (FR-014)" },
+      "patrimonio_itens": { "type": "integer", "minimum": 0, "description": "Quantidade de bens somados (NFR-009); 0 quando patrimonio_total é null" },
+      "patrimonio_2022": { "type": ["number", "null"], "minimum": 0, "description": "Patrimônio declarado em 2022 como candidato a deputado federal por MG; null = não concorreu (FR-015)" },
+      "voto_6x1": {
+        "type": ["object", "null"],
+        "additionalProperties": false,
+        "required": ["final", "primeiro_turno", "emendas"],
+        "description": "Posição na PEC 221/2019 (fim da 6x1); final null = não era deputado em 27/05/2026 (FR-021, FR-024)",
+        "properties": {
+          "final": { "enum": ["sim", "nao", "ausente", null] },
+          "primeiro_turno": { "enum": ["sim", "nao", "ausente", null] },
+          "emendas": { "type": "array", "uniqueItems": true, "items": { "enum": [1, 2] } }
+        }
+      },
+      "votacoes_2026": {
+        "type": ["object", "null"],
+        "additionalProperties": false,
+        "required": ["votou", "total"],
+        "description": "Votações nominais do Plenário em 2026: em quantas votou, de quantas com ele no mandato; null = nenhuma (FR-031, FR-034)",
+        "properties": {
+          "votou": { "type": "integer", "minimum": 0 },
+          "total": { "type": "integer", "minimum": 1 }
+        }
+      },
+      "reeleicao": { "type": "boolean", "description": "Deputado federal em exercício que concorre em 2026 (FR-039); false = os campos da Câmara são null" },
+      "cargos_anteriores": {
+        "type": "array",
+        "description": "Cargos para os quais foi eleito (TSE, 2000 a 2024), do mais recente ao mais antigo; vazia = nunca eleito (FR-036, FR-038)",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cargo", "lugar", "ano"],
+          "properties": {
+            "cargo": { "type": "string", "minLength": 1 },
+            "lugar": { "type": "string", "minLength": 2 },
+            "ano": { "type": "integer", "minimum": 2000, "maximum": 2024 }
+          }
+        }
+      },
+      "regiao_2022": {
+        "type": ["object", "null"],
+        "additionalProperties": false,
+        "required": ["total", "top"],
+        "description": "Versão 4310 (03/10/2026). Votos de 2022 a deputado federal por MG (TSE, votacao_candidato_munzona_2022, QT_VOTOS_NOMINAIS_VALIDOS, ligação por CPF em memória); top = por código TSE do município, [votos, posição] onde ficou entre os 10 primeiros; null = não disputou em 2022",
+        "properties": {
+          "total": { "type": "integer", "minimum": 0 },
+          "top": {
+            "type": "object",
+            "propertyNames": { "pattern": "^[0-9]{5}$" },
+            "additionalProperties": { "type": "array", "prefixItems": [{ "type": "integer", "exclusiveMinimum": 0 }, { "type": "integer", "minimum": 1, "maximum": 10 }], "minItems": 2, "maxItems": 2 }
+          }
+        }
+      },
+      "governo_2026": {
+        "type": ["object", "null"],
+        "additionalProperties": false,
+        "required": ["com", "total"],
+        "description": "Versão 4310. Votações nominais do Plenário em 2026 em que o Governo orientou Sim/Não e o deputado votou Sim/Não (total) e em quantas votou igual à orientação (com); null = não é deputado ou nenhuma",
+        "properties": {
+          "com": { "type": "integer", "minimum": 0 },
+          "total": { "type": "integer", "minimum": 1 }
+        }
+      },
+      "blindagem": {
+        "type": ["object", "null"],
+        "additionalProperties": false,
+        "required": ["t1", "t2"],
+        "description": "Versão 4310. PEC 3/2021 (PEC da Blindagem), Plenário, 16/09/2025: 1º turno (2270800-135) e 2º turno (2270800-160); null no turno = fora do exercício; null no campo = não é deputado",
+        "properties": {
+          "t1": { "enum": ["sim", "nao", "ausente", null] },
+          "t2": { "enum": ["sim", "nao", "ausente", null] }
+        }
+      },
+      "patrimonio_anterior": {
+        "type": ["object", "null"],
+        "additionalProperties": false,
+        "required": ["ano", "valor", "fator_ipca"],
+        "description": "Declaração mais recente antes de 2026 (2006–2024, qualquer cargo) e fator do IPCA de agosto do ano dela a agosto de 2026; null = nenhuma (FR-062, FR-063)",
+        "properties": {
+          "ano": { "type": "integer", "minimum": 2006, "maximum": 2024 },
+          "valor": { "type": "number", "minimum": 0 },
+          "fator_ipca": { "type": "number", "minimum": 1 }
+        }
+      }
+    }
+  }
+}

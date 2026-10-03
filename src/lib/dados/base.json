@@ -1,0 +1,113 @@
+{
+  "data_conferido": "2026-10-03",
+  "fontes": [
+    {
+      "nome": "Câmara dos Deputados — Dados Abertos (deputados de MG na 57ª legislatura, detalhe e histórico)",
+      "url": "https://dadosabertos.camara.leg.br/api/v2/deputados?siglaUf=MG&idLegislatura=57",
+      "arquivo_ou_endpoint": "GET https://dadosabertos.camara.leg.br/api/v2/deputados?siglaUf=MG&idLegislatura=57; GET /deputados/{id}; GET /deputados/{id}/historico"
+    },
+    {
+      "nome": "TSE — Dados Abertos, Candidatos 2026",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2026.zip",
+      "arquivo_ou_endpoint": "consulta_cand_2026.zip (modificado na fonte em 2026-09-30T22:36:00.000Z)"
+    },
+    {
+      "nome": "TSE — Dados Abertos, Candidatos 2026, informações complementares (situação da candidatura)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand_complementar/consulta_cand_complementar_2026.zip",
+      "arquivo_ou_endpoint": "consulta_cand_complementar_2026.zip (modificado na fonte em 2026-09-30T22:36:00.000Z)"
+    },
+    {
+      "nome": "TSE — Dados Abertos, Candidatos 2026, redes sociais (Instagram de quem não o informa à Câmara)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/rede_social_candidato_2026.zip",
+      "arquivo_ou_endpoint": "rede_social_candidato_2026.zip (modificado na fonte em 2026-10-02T15:36:11.000Z); exceções em scripts/instagram-manual.json"
+    },
+    {
+      "nome": "TSE — Dados Abertos, Candidatos 2026, declaração patrimonial (só o total por candidato entra na base)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/bem_candidato/bem_candidato_2026.zip",
+      "arquivo_ou_endpoint": "bem_candidato_2026.zip (modificado na fonte em 2026-10-02T15:34:06.000Z)"
+    },
+    {
+      "nome": "TSE — Dados Abertos, Candidatos 2022 (deputado federal por MG; ligação com 2026 feita em memória)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2022.zip",
+      "arquivo_ou_endpoint": "consulta_cand_2022.zip (modificado na fonte em 2026-10-02T06:21:12.000Z)"
+    },
+    {
+      "nome": "TSE — Dados Abertos, Candidatos 2022, declaração patrimonial (só o total por candidato entra na base)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/bem_candidato/bem_candidato_2022.zip",
+      "arquivo_ou_endpoint": "bem_candidato_2022.zip (modificado na fonte em 2026-10-02T06:18:55.000Z)"
+    },
+    {
+      "nome": "Câmara dos Deputados — Dados Abertos, PEC 221/2019 (fim da escala 6x1): votação no Plenário em 27/05/2026 e Emendas 1 e 2",
+      "url": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2233802",
+      "arquivo_ou_endpoint": "GET /votacoes/2233802-438/votos; GET /votacoes/2233802-424/votos; GET /proposicoes/{2624861,2624863}/autores; pedidos de retirada em GET /proposicoes/2233802/relacionadas"
+    },
+    {
+      "nome": "Câmara dos Deputados — Dados Abertos, votações nominais do Plenário em 2026 (123 de 1296 votações, até 03/10/2026)",
+      "url": "https://dadosabertos.camara.leg.br/api/v2/votacoes?idOrgao=180&dataInicio=2026-01-01",
+      "arquivo_ou_endpoint": "GET /votacoes?idOrgao=180 mês a mês; GET /votacoes/{id}/votos; GET /deputados?siglaUf=MG&dataInicio={data}&dataFim={data} (em exercício em cada data); conferência em docs/conferencia-participacao.md"
+    },
+    {
+      "nome": "TSE — Dados Abertos, Candidatos 2000 a 2024 (quem já foi eleito; ligação com 2026 feita em memória)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2024.zip",
+      "arquivo_ou_endpoint": "consulta_cand_2024.zip, consulta_cand_2022.zip, consulta_cand_2020.zip, consulta_cand_2018.zip, consulta_cand_2016.zip, consulta_cand_2014.zip, consulta_cand_2012.zip, consulta_cand_2010.zip, consulta_cand_2008.zip, consulta_cand_2006.zip, consulta_cand_2004.zip, consulta_cand_2002.zip, consulta_cand_2000.zip; conferência em docs/conferencia-cargos.md"
+    },
+    {
+      "nome": "TSE — Dados Abertos, declaração patrimonial de 2008 a 2024 (declaração mais recente de cada candidato antes de 2026; só o total entra na base)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/bem_candidato/bem_candidato_2024.zip",
+      "arquivo_ou_endpoint": "bem_candidato_2024.zip (modificado na fonte em 2026-10-03T05:29:58.000Z), bem_candidato_2022.zip (modificado na fonte em 2026-10-02T06:18:55.000Z), bem_candidato_2020.zip (modificado na fonte em 2026-01-06T19:51:12.000Z), bem_candidato_2018.zip (modificado na fonte em 2024-11-13T16:18:46.000Z), bem_candidato_2016.zip (modificado na fonte em 2021-04-30T16:42:43.000Z), bem_candidato_2014.zip (modificado na fonte em 2025-08-26T17:04:20.000Z), bem_candidato_2012.zip (modificado na fonte em 2021-09-01T14:11:47.000Z), bem_candidato_2010.zip (modificado na fonte em 2021-09-01T14:11:42.000Z), bem_candidato_2008.zip (modificado na fonte em 2021-09-01T14:11:42.000Z); conferência em docs/conferencia-ipca.md"
+    },
+    {
+      "nome": "IBGE — SIDRA, tabela 1737 (IPCA), variável 2266 (número-índice, dez/1993 = 100), mês de agosto, consultado em 03/10/2026 (correção do patrimônio declarado antes de 2026)",
+      "url": "https://apisidra.ibge.gov.br/values/t/1737/n1/all/v/2266/p/200608,200708,200808,200908,201008,201108,201208,201308,201408,201508,201608,201708,201808,201908,202008,202108,202208,202308,202408,202508,202608",
+      "arquivo_ou_endpoint": "scripts/ipca-agosto.json; fator = índice de agosto de 2026 ÷ índice de agosto do ano da declaração"
+    },
+    {
+      "nome": "TSE — Dados Abertos, fotos dos candidatos de 2026 em MG (de quem não é deputado em exercício)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/eleicoes/eleicoes2026/fotos/foto_cand2026_MG_div.zip",
+      "arquivo_ou_endpoint": "foto_cand2026_MG_div.zip (modificado na fonte em 2026-10-02T06:18:37.000Z)"
+    },
+    {
+      "nome": "TSE — Dados Abertos, votação por município e zona em 2022 (deputado federal por MG; ligação com 2026 feita em memória)",
+      "url": "https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2022.zip",
+      "arquivo_ou_endpoint": "votacao_candidato_munzona_2022_MG.csv, campo QT_VOTOS_NOMINAIS_VALIDOS, zonas somadas por município"
+    },
+    {
+      "nome": "Câmara dos Deputados — Dados Abertos, orientação do Governo nas votações nominais do Plenário em 2026 (94 de 123 com orientação Sim ou Não)",
+      "url": "https://dadosabertos.camara.leg.br/api/v2/votacoes?idOrgao=180&dataInicio=2026-01-01&dataFim=2026-10-03",
+      "arquivo_ou_endpoint": "GET /votacoes mês a mês; GET /votacoes/{id}/votos; GET /votacoes/{id}/orientacoes (siglaPartidoBloco = Governo)"
+    },
+    {
+      "nome": "Câmara dos Deputados — Dados Abertos, PEC 3/2021 (PEC da Blindagem), Plenário, 16/09/2025",
+      "url": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2270800",
+      "arquivo_ou_endpoint": "GET /votacoes/2270800-135/votos; GET /votacoes/2270800-160/votos; GET /deputados/{id}/historico"
+    }
+  ],
+  "total_deputados_mg": 53,
+  "nao_concorrem": [
+    {
+      "id_camara": 74646,
+      "nome": "Aécio Neves",
+      "motivo": "candidatura a SENADOR (MG)"
+    },
+    {
+      "id_camara": 160758,
+      "nome": "Domingos Sávio",
+      "motivo": "candidatura a SENADOR (MG)"
+    },
+    {
+      "id_camara": 204539,
+      "nome": "Hercílio Coelho Diniz",
+      "motivo": "sem registro de candidatura em 2026 no TSE"
+    },
+    {
+      "id_camara": 178895,
+      "nome": "Misael Varella",
+      "motivo": "candidatura a 1º SUPLENTE DE SENADOR (MG)"
+    },
+    {
+      "id_camara": 74160,
+      "nome": "Patrus Ananias",
+      "motivo": "candidatura a GOVERNADOR (MG)"
+    }
+  ]
+}
